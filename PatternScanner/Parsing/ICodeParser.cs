@@ -1,0 +1,14 @@
+﻿using PatternScanner.DTO;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace PatternScanner.Parsing
+{
+    public interface ICodeParser
+    {
+        CodeText Parse(string text);
+    }
+}
