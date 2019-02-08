@@ -64,6 +64,7 @@
     <Compile Include="DTO\CodeByte.cs" />
     <Compile Include="DTO\CodeRow.cs" />
     <Compile Include="DTO\CodeText.cs" />
+    <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Parsing\CEParser.cs" />
     <Compile Include="Parsing\HexParser.cs" />
     <Compile Include="Parsing\ICodeParser.cs" />

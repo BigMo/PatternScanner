@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Text;
 using System.Text.RegularExpressions;
 
 namespace PatternScanner.DTO
@@ -12,6 +13,18 @@ namespace PatternScanner.DTO
         public byte[] AllBytes => Rows.SelectMany(x => x.AllBytes).ToArray();
         public string ByteString => string.Join("", Rows.Select(x => x.ByteString).ToArray());
         public string MaskString => string.Join("", Rows.Select(x => x.MaskString).ToArray());
+        public string PatternString
+        {
+            get
+            {
+                var mask = MaskString;
+                var bytes = AllBytes;
+                string[] parts = new string[bytes.Length];
+                for (int i = 0; i < mask.Length; i++)
+                    parts[i] = mask[i] == '?' ? "?" : bytes[i].ToString("X2");
+                return string.Join(" ", parts);
+            }
+        }
 
         public event EventHandler PatternChanged;
 

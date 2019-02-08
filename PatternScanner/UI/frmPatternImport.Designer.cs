@@ -34,14 +34,14 @@
             this.label2 = new System.Windows.Forms.Label();
             this.label3 = new System.Windows.Forms.Label();
             this.cbbStyle = new System.Windows.Forms.ComboBox();
-            this.btnApply = new System.Windows.Forms.Button();
             this.btnCancel = new System.Windows.Forms.Button();
             this.lblRows = new System.Windows.Forms.Label();
             this.lblBytes = new System.Windows.Forms.Label();
+            this.btnApply = new System.Windows.Forms.Button();
+            this.btnParse = new System.Windows.Forms.Button();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.btnReadFile = new System.Windows.Forms.Button();
             this.btnClipboard = new System.Windows.Forms.Button();
-            this.btnParse = new System.Windows.Forms.Button();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
@@ -129,18 +129,6 @@
             this.cbbStyle.TabIndex = 1;
             this.cbbStyle.SelectedIndexChanged += new System.EventHandler(this.cbbStyle_SelectedIndexChanged);
             // 
-            // btnApply
-            // 
-            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
-            this.btnApply.Enabled = false;
-            this.btnApply.Location = new System.Drawing.Point(695, 70);
-            this.btnApply.Name = "btnApply";
-            this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 2;
-            this.btnApply.Text = "Apply";
-            this.btnApply.UseVisualStyleBackColor = true;
-            // 
             // btnCancel
             // 
             this.btnCancel.DialogResult = System.Windows.Forms.DialogResult.Cancel;
@@ -172,6 +160,30 @@
             this.lblBytes.Size = new System.Drawing.Size(10, 13);
             this.lblBytes.TabIndex = 0;
             this.lblBytes.Text = "-";
+            // 
+            // btnApply
+            // 
+            this.btnApply.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnApply.DialogResult = System.Windows.Forms.DialogResult.OK;
+            this.btnApply.Enabled = false;
+            this.btnApply.Location = new System.Drawing.Point(695, 70);
+            this.btnApply.Name = "btnApply";
+            this.btnApply.Size = new System.Drawing.Size(75, 23);
+            this.btnApply.TabIndex = 2;
+            this.btnApply.Text = "Apply";
+            this.btnApply.UseVisualStyleBackColor = true;
+            // 
+            // btnParse
+            // 
+            this.btnParse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnParse.Enabled = false;
+            this.btnParse.Location = new System.Drawing.Point(695, 3);
+            this.btnParse.Name = "btnParse";
+            this.btnParse.Size = new System.Drawing.Size(75, 23);
+            this.btnParse.TabIndex = 2;
+            this.btnParse.Text = "Parse";
+            this.btnParse.UseVisualStyleBackColor = true;
+            this.btnParse.Click += new System.EventHandler(this.btnParse_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -213,18 +225,6 @@
             this.btnClipboard.UseVisualStyleBackColor = true;
             this.btnClipboard.Click += new System.EventHandler(this.btnClipboard_Click);
             // 
-            // btnParse
-            // 
-            this.btnParse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
-            this.btnParse.Enabled = false;
-            this.btnParse.Location = new System.Drawing.Point(695, 3);
-            this.btnParse.Name = "btnParse";
-            this.btnParse.Size = new System.Drawing.Size(75, 23);
-            this.btnParse.TabIndex = 2;
-            this.btnParse.Text = "Parse";
-            this.btnParse.UseVisualStyleBackColor = true;
-            this.btnParse.Click += new System.EventHandler(this.btnParse_Click);
-            // 
             // frmPatternImport
             // 
             this.AcceptButton = this.btnApply;
@@ -235,6 +235,7 @@
             this.Controls.Add(this.tableLayoutPanel2);
             this.Controls.Add(this.tableLayoutPanel1);
             this.Name = "frmPatternImport";
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterParent;
             this.Text = "PatternScanner - Disassembly Import";
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();

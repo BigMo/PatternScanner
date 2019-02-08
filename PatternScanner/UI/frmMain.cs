@@ -1,8 +1,10 @@
 ﻿using PatternScanner.DTO;
+using PatternScanner.Extensions;
 using PatternScanner.PeExtension;
 using PeNet;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Threading;
@@ -50,6 +52,7 @@ namespace PatternScanner.UI
             public byte[] bytes;
             public string mask;
         }
+        //TODO: Implement better progress synchronization.
         private class ScanProgress
         {
             public ScanSettings[] Settings { get; private set; }
@@ -126,6 +129,7 @@ namespace PatternScanner.UI
         {
             txbBytes.Text = patternTable.CodeText.ByteString;
             txbMask.Text = patternTable.CodeText.MaskString;
+            txbPattern.Text = patternTable.CodeText.PatternString;
         }
 
         private void btnImport_Click(object sender, EventArgs e)
@@ -202,7 +206,7 @@ namespace PatternScanner.UI
                 progressBar1.Visible = true;
 
                 var items = await Task.WhenAll(scanTasks);
-                var allItems = items.SelectMany(x => x).OrderBy(x => x.Text).ToArray();
+                var allItems = items.SelectMany(x => x).DistinctBy(x => x.Tag).ToArray();
                 ltvOccurences.Items.AddRange(allItems);
                 ltvOccurences.ResumeLayout();
                 lblOccurences.Text = allItems.Length.ToString();
@@ -216,6 +220,7 @@ namespace PatternScanner.UI
             }
         }
 
+        //TODO: Move this into a seperate class, this kinda makes me throw up.
         private ListViewItem[] Scan(int index, ScanSettings settings, ScanProgress progress)
         {
             var items = new List<ListViewItem>();
@@ -235,6 +240,7 @@ namespace PatternScanner.UI
                         if (Matches(buffer, i, settings.bytes, settings.mask))
                         {
                             var ltv = new ListViewItem((pos + i).ToString("X8"));
+                            ltv.Tag = pos + i;
                             ltv.SubItems.Add(string.Join(" ", buffer.Skip(i).Take(settings.mask.Length).Select(x => x.ToString("X2")).ToArray()));
                             items.Add(ltv);
                             progress.AddFinding();
@@ -259,6 +265,16 @@ namespace PatternScanner.UI
                     return false;
 
             return true;
+        }
+
+        private void lnkUC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://www.unknowncheats.me/forum/members/562321.html");
+        }
+
+        private void lnkGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Process.Start("https://github.com/BigMo/PatternScanner");
         }
     }
 }
