@@ -35,6 +35,13 @@
             this.label2 = new System.Windows.Forms.Label();
             this.txbBytes = new System.Windows.Forms.TextBox();
             this.txbMask = new System.Windows.Forms.TextBox();
+            this.txbPattern = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
+            this.lnkUC = new System.Windows.Forms.LinkLabel();
+            this.label6 = new System.Windows.Forms.Label();
+            this.lnkGithub = new System.Windows.Forms.LinkLabel();
+            this.label8 = new System.Windows.Forms.Label();
             this.ltvOccurences = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -48,21 +55,14 @@
             this.lblOccurences = new System.Windows.Forms.Label();
             this.cbbSection = new System.Windows.Forms.ComboBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.txbPattern = new System.Windows.Forms.TextBox();
-            this.label5 = new System.Windows.Forms.Label();
             this.patternTable = new PatternScanner.UI.PatternTable();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.lnkUC = new System.Windows.Forms.LinkLabel();
-            this.lnkGithub = new System.Windows.Forms.LinkLabel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.label8 = new System.Windows.Forms.Label();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -157,6 +157,94 @@
             this.txbMask.Size = new System.Drawing.Size(359, 20);
             this.txbMask.TabIndex = 1;
             this.txbMask.TextChanged += new System.EventHandler(this.txbMask_TextChanged);
+            // 
+            // txbPattern
+            // 
+            this.txbPattern.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbPattern.Location = new System.Drawing.Point(50, 58);
+            this.txbPattern.Name = "txbPattern";
+            this.txbPattern.Size = new System.Drawing.Size(359, 20);
+            this.txbPattern.TabIndex = 1;
+            this.txbPattern.TextChanged += new System.EventHandler(this.txbMask_TextChanged);
+            // 
+            // label5
+            // 
+            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(3, 61);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(41, 13);
+            this.label5.TabIndex = 0;
+            this.label5.Text = "Pattern";
+            // 
+            // tableLayoutPanel3
+            // 
+            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.tableLayoutPanel3.ColumnCount = 4;
+            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel3, 3);
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
+            this.tableLayoutPanel3.Controls.Add(this.lnkUC, 1, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 0);
+            this.tableLayoutPanel3.Controls.Add(this.lnkGithub, 3, 0);
+            this.tableLayoutPanel3.Controls.Add(this.label8, 2, 0);
+            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 81);
+            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
+            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
+            this.tableLayoutPanel3.RowCount = 1;
+            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(493, 20);
+            this.tableLayoutPanel3.TabIndex = 8;
+            // 
+            // lnkUC
+            // 
+            this.lnkUC.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lnkUC.AutoSize = true;
+            this.lnkUC.Location = new System.Drawing.Point(22, 3);
+            this.lnkUC.Margin = new System.Windows.Forms.Padding(0);
+            this.lnkUC.Name = "lnkUC";
+            this.lnkUC.Size = new System.Drawing.Size(55, 13);
+            this.lnkUC.TabIndex = 0;
+            this.lnkUC.TabStop = true;
+            this.lnkUC.Text = "Zat @ UC";
+            this.lnkUC.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUC_LinkClicked);
+            // 
+            // label6
+            // 
+            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(3, 3);
+            this.label6.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(19, 13);
+            this.label6.TabIndex = 1;
+            this.label6.Text = "By";
+            // 
+            // lnkGithub
+            // 
+            this.lnkGithub.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lnkGithub.AutoSize = true;
+            this.lnkGithub.Location = new System.Drawing.Point(89, 3);
+            this.lnkGithub.Margin = new System.Windows.Forms.Padding(0);
+            this.lnkGithub.Name = "lnkGithub";
+            this.lnkGithub.Size = new System.Drawing.Size(85, 13);
+            this.lnkGithub.TabIndex = 0;
+            this.lnkGithub.TabStop = true;
+            this.lnkGithub.Text = "BigMo @ Github";
+            this.lnkGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGithub_LinkClicked);
+            // 
+            // label8
+            // 
+            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(77, 3);
+            this.label8.Margin = new System.Windows.Forms.Padding(0);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(12, 13);
+            this.label8.TabIndex = 1;
+            this.label8.Text = "/";
             // 
             // ltvOccurences
             // 
@@ -304,25 +392,6 @@
             this.progressBar1.Size = new System.Drawing.Size(232, 23);
             this.progressBar1.TabIndex = 4;
             // 
-            // txbPattern
-            // 
-            this.txbPattern.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.txbPattern.Location = new System.Drawing.Point(50, 58);
-            this.txbPattern.Name = "txbPattern";
-            this.txbPattern.Size = new System.Drawing.Size(359, 20);
-            this.txbPattern.TabIndex = 1;
-            this.txbPattern.TextChanged += new System.EventHandler(this.txbMask_TextChanged);
-            // 
-            // label5
-            // 
-            this.label5.Anchor = System.Windows.Forms.AnchorStyles.Right;
-            this.label5.AutoSize = true;
-            this.label5.Location = new System.Drawing.Point(3, 61);
-            this.label5.Name = "label5";
-            this.label5.Size = new System.Drawing.Size(41, 13);
-            this.label5.TabIndex = 0;
-            this.label5.Text = "Pattern";
-            // 
             // patternTable
             // 
             this.patternTable.AutoScroll = true;
@@ -336,75 +405,6 @@
             this.patternTable.Size = new System.Drawing.Size(493, 469);
             this.patternTable.TabIndex = 6;
             this.patternTable.PatternChanged += new System.EventHandler(this.patternTable_PatternChanged);
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel3.ColumnCount = 4;
-            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel3, 3);
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.Controls.Add(this.lnkUC, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.lnkGithub, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label8, 2, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 81);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(493, 20);
-            this.tableLayoutPanel3.TabIndex = 8;
-            // 
-            // lnkUC
-            // 
-            this.lnkUC.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkUC.AutoSize = true;
-            this.lnkUC.Location = new System.Drawing.Point(22, 3);
-            this.lnkUC.Margin = new System.Windows.Forms.Padding(0);
-            this.lnkUC.Name = "lnkUC";
-            this.lnkUC.Size = new System.Drawing.Size(55, 13);
-            this.lnkUC.TabIndex = 0;
-            this.lnkUC.TabStop = true;
-            this.lnkUC.Text = "Zat @ UC";
-            this.lnkUC.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUC_LinkClicked);
-            // 
-            // lnkGithub
-            // 
-            this.lnkGithub.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkGithub.AutoSize = true;
-            this.lnkGithub.Location = new System.Drawing.Point(89, 3);
-            this.lnkGithub.Margin = new System.Windows.Forms.Padding(0);
-            this.lnkGithub.Name = "lnkGithub";
-            this.lnkGithub.Size = new System.Drawing.Size(85, 13);
-            this.lnkGithub.TabIndex = 0;
-            this.lnkGithub.TabStop = true;
-            this.lnkGithub.Text = "BigMo @ Github";
-            this.lnkGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGithub_LinkClicked);
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 3);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "By";
-            // 
-            // label8
-            // 
-            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(77, 3);
-            this.label8.Margin = new System.Windows.Forms.Padding(0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(12, 13);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "/";
             // 
             // frmMain
             // 
@@ -422,10 +422,10 @@
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel2.ResumeLayout(false);
-            this.tableLayoutPanel2.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.tableLayoutPanel2.ResumeLayout(false);
+            this.tableLayoutPanel2.PerformLayout();
             this.ResumeLayout(false);
 
         }

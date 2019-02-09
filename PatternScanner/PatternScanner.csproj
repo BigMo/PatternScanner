@@ -64,6 +64,7 @@
     <Compile Include="DTO\CodeByte.cs" />
     <Compile Include="DTO\CodeRow.cs" />
     <Compile Include="DTO\CodeText.cs" />
+    <Compile Include="DTO\Pattern.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Parsing\CEParser.cs" />
     <Compile Include="Parsing\HexParser.cs" />
@@ -71,6 +72,12 @@
     <Compile Include="Parsing\IDAParser.cs" />
     <Compile Include="Parsing\Parsers.cs" />
     <Compile Include="PeExtension\ImageSection.cs" />
+    <Compile Include="Scanning\IScanner.cs" />
+    <Compile Include="Scanning\MultithreadedScanner.cs" />
+    <Compile Include="Scanning\Scanner.cs" />
+    <Compile Include="Scanning\ScanProgress.cs" />
+    <Compile Include="Scanning\ScanResult.cs" />
+    <Compile Include="Scanning\ScanSettings.cs" />
     <Compile Include="UI\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>

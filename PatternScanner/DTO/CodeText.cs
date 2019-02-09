@@ -6,25 +6,15 @@ using System.Text.RegularExpressions;
 
 namespace PatternScanner.DTO
 {
-    public class CodeText : IEquatable<CodeText>
+    public class CodeText
     {
         public CodeRow[] Rows { get; private set; }
 
-        public byte[] AllBytes => Rows.SelectMany(x => x.AllBytes).ToArray();
-        public string ByteString => string.Join("", Rows.Select(x => x.ByteString).ToArray());
-        public string MaskString => string.Join("", Rows.Select(x => x.MaskString).ToArray());
-        public string PatternString
-        {
-            get
-            {
-                var mask = MaskString;
-                var bytes = AllBytes;
-                string[] parts = new string[bytes.Length];
-                for (int i = 0; i < mask.Length; i++)
-                    parts[i] = mask[i] == '?' ? "?" : bytes[i].ToString("X2");
-                return string.Join(" ", parts);
-            }
-        }
+        public Pattern Pattern =>
+            new Pattern(
+                string.Join("", Rows.Select(x => x.MaskString).ToArray()),
+                Rows.SelectMany(x => x.AllBytes).ToArray()
+                );
 
         public event EventHandler PatternChanged;
 
@@ -37,7 +27,7 @@ namespace PatternScanner.DTO
 
         public void ApplyMask(string mask)
         {
-            if (mask == MaskString)
+            if (mask == Pattern.Mask)
                 return;
 
             var allBytes = Rows.SelectMany(x => x.Bytes).ToArray();
@@ -46,28 +36,6 @@ namespace PatternScanner.DTO
 
             for (int i = 0; i < allBytes.Length; i++)
                 allBytes[i].Wildcard = mask[i] == '?';
-        }
-
-        public override bool Equals(object obj)
-        {
-            if (obj is CodeText)
-                return obj.GetHashCode() == GetHashCode();
-            return false;
-        }
-        public bool Equals(CodeText other)
-        {
-            return other != null &&
-                   EqualityComparer<CodeRow[]>.Default.Equals(Rows, other.Rows) &&
-                   ByteString == other.ByteString &&
-                   MaskString == other.MaskString;
-        }
-        public override int GetHashCode()
-        {
-            var hashCode = 1814035286;
-            hashCode = hashCode * -1521134295 + EqualityComparer<CodeRow[]>.Default.GetHashCode(Rows);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(ByteString);
-            hashCode = hashCode * -1521134295 + EqualityComparer<string>.Default.GetHashCode(MaskString);
-            return hashCode;
         }
     }
 }

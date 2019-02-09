@@ -1,6 +1,7 @@
 ﻿using PatternScanner.DTO;
 using PatternScanner.Extensions;
 using PatternScanner.PeExtension;
+using PatternScanner.Scanning;
 using PeNet;
 using System;
 using System.Collections.Generic;
@@ -42,72 +43,73 @@ namespace PatternScanner.UI
         }
         private FileInfo file;
         private PeFile peFile;
-        private Task<ListViewItem[]>[] scanTasks;
-        private CancellationTokenSource cancellation;
-        private ScanProgress progress;
+        private MultithreadedScanner scanner;
+        //private Task<ListViewItem[]>[] scanTasks;
+        //private CancellationTokenSource cancellation;
+        //private ScanProgress progress;
 
-        private struct ScanSettings
-        {
-            public long address, size;
-            public byte[] bytes;
-            public string mask;
-        }
-        //TODO: Implement better progress synchronization.
-        private class ScanProgress
-        {
-            public ScanSettings[] Settings { get; private set; }
-            public long[] BytesRead { get; private set; }
-            public int Findings { get; private set; }
-            public int lastUpdate;
+        //private struct ScanSettings
+        //{
+        //    public long address, size;
+        //    public byte[] bytes;
+        //    public string mask;
+        //}
+        ////TODO: Implement better progress synchronization.
+        //private class ScanProgress
+        //{
+        //    public ScanSettings[] Settings { get; private set; }
+        //    public long[] BytesRead { get; private set; }
+        //    public int Findings { get; private set; }
+        //    public int lastUpdate;
 
-            public event EventHandler MadeProgress, FoundItems;
+        //    public event EventHandler MadeProgress, FoundItems;
 
-            public void Setup(ScanSettings[] settings)
-            {
-                Settings = settings;
-                BytesRead = new long[settings.Length];
-                Findings = 0;
-                lastUpdate = 0;
-            }
+        //    public void Setup(ScanSettings[] settings)
+        //    {
+        //        Settings = settings;
+        //        BytesRead = new long[settings.Length];
+        //        Findings = 0;
+        //        lastUpdate = 0;
+        //    }
 
-            public void Update(int id, long bytes)
-            {
-                BytesRead[id] = bytes;
-                MadeProgress?.Invoke(this, EventArgs.Empty);
-            }
-            public void AddFinding()
-            {
-                Findings++;
-                FoundItems?.Invoke(this, EventArgs.Empty);
-            }
-        }
+        //    public void Update(int id, long bytes)
+        //    {
+        //        BytesRead[id] = bytes;
+        //        MadeProgress?.Invoke(this, EventArgs.Empty);
+        //    }
+        //    public void AddFinding()
+        //    {
+        //        Findings++;
+        //        FoundItems?.Invoke(this, EventArgs.Empty);
+        //    }
+        //}
 
         public frmMain()
         {
             InitializeComponent();
             Icon = Properties.Resources.Logo_256;
 
-            progress = new ScanProgress();
-            progress.MadeProgress += (o, e) =>
-            {
-                var totalBytes = progress.BytesRead.Sum();
-                var perc = (int)(100 * (totalBytes / (double)progress.Settings.Sum(x => x.size)));
-                if (perc > progress.lastUpdate)
-                {
-                    progress.lastUpdate = perc;
-                    this.Invoke((MethodInvoker)delegate { progressBar1.Value = Math.Min(perc, progressBar1.Maximum); });
-                }
-            };
-            progress.FoundItems += (o, e) =>
-            {
-                if (progress.Findings < 10 ||
-                    progress.Findings < 100 && progress.Findings % 10 == 0 ||
-                    progress.Findings < 1000 && progress.Findings % 100 == 0 ||
-                    progress.Findings < 10000 && progress.Findings % 1000 == 0 ||
-                    progress.Findings < 100000 && progress.Findings % 1000 == 0 ||
-                    progress.Findings < 1000000 && progress.Findings % 10000 == 0)
-                    this.Invoke((MethodInvoker)delegate { lblOccurences.Text = progress.Findings.ToString(); });
-            };
+            //progress = new ScanProgress();
+            //progress.MadeProgress += (o, e) =>
+            //{
+            //    var totalBytes = progress.BytesRead.Sum();
+            //    var perc = (int)(100 * (totalBytes / (double)progress.Settings.Sum(x => x.size)));
+            //    if (perc > progress.lastUpdate)
+            //    {
+            //        progress.lastUpdate = perc;
+            //        this.Invoke((MethodInvoker)delegate { progressBar1.Value = Math.Min(perc, progressBar1.Maximum); });
+            //    }
+            //};
+            //progress.FoundItems += (o, e) =>
+            //{
+            //    if (progress.Findings < 10 ||
+            //        progress.Findings < 100 && progress.Findings % 10 == 0 ||
+            //        progress.Findings < 1000 && progress.Findings % 100 == 0 ||
+            //        progress.Findings < 10000 && progress.Findings % 1000 == 0 ||
+            //        progress.Findings < 100000 && progress.Findings % 1000 == 0 ||
+            //        progress.Findings < 1000000 && progress.Findings % 10000 == 0)
+            //        this.Invoke((MethodInvoker)delegate { lblOccurences.Text = progress.Findings.ToString(); });
+            //};
         }
 
         private void LoadPeFile()
@@ -127,9 +129,10 @@ namespace PatternScanner.UI
 
         private void patternTable_PatternChanged(object sender, EventArgs e)
         {
-            txbBytes.Text = patternTable.CodeText.ByteString;
-            txbMask.Text = patternTable.CodeText.MaskString;
-            txbPattern.Text = patternTable.CodeText.PatternString;
+            var pattern = patternTable.CodeText.Pattern;
+            txbBytes.Text = pattern.BytesString;
+            txbMask.Text = pattern.Mask;
+            txbPattern.Text = pattern.HybridPattern;
         }
 
         private void btnImport_Click(object sender, EventArgs e)
@@ -144,7 +147,7 @@ namespace PatternScanner.UI
         }
         private void txbMask_TextChanged(object sender, EventArgs e)
         {
-            var mask = patternTable.CodeText.MaskString;
+            var mask = patternTable.CodeText.Pattern.Mask;
             try
             {
                 patternTable.CodeText.ApplyMask(txbMask.Text);
@@ -167,104 +170,56 @@ namespace PatternScanner.UI
 
         private async void btnScan_Click(object sender, EventArgs e)
         {
-            if (scanTasks == null)
+            if (scanner == null)
             {
                 var section = cbbSection.SelectedItem as ImageSection;
-                var scanSettings = new ScanSettings()
+                scanner = new MultithreadedScanner();
+                var settings = new ScanSettings(
+                    section != null ? section.Address : 0,
+                    section != null ? section.Size : file.Length,
+                    patternTable.CodeText.Pattern);
+
+                var progress = new ScanProgress(settings);
+                progress.MadeProgressPercent += (_o, _e) => this.Invoke((MethodInvoker)delegate { progressBar1.Value = progress.ProgressPercent; });
+                progress.PatternFound += (_o, _e) =>
                 {
-                    address = section != null ? section.Address : 0,
-                    size = section != null ? section.Size : file.Length,
-                    bytes = patternTable.CodeText.AllBytes,
-                    mask = patternTable.CodeText.MaskString
+                    if (progress.Findings < 10 ||
+                    (progress.Findings < 100 && progress.Findings % 10 == 0) ||
+                    (progress.Findings < 1000 && progress.Findings % 100 == 0) ||
+                    (progress.Findings < 10000 && progress.Findings % 1000 == 0) ||
+                    (progress.Findings < 100000 && progress.Findings % 10000 == 0) ||
+                        progress.Findings % 100000 == 0)
+                        this.Invoke((MethodInvoker)delegate { this.lblOccurences.Text = progress.Findings.ToString(); });
                 };
-                cancellation = new CancellationTokenSource();
-                scanTasks = new Task<ListViewItem[]>[Environment.ProcessorCount/* / 2*/];
-                var scanTaskSettings = new ScanSettings[scanTasks.Length];
-                for (int i = 0; i < scanTaskSettings.Length; i++)
-                {
-                    scanTaskSettings[i] = new ScanSettings()
-                    {
-                        address = scanSettings.address + (scanSettings.size / scanTasks.Length)*i,
-                        size = scanSettings.size / scanTasks.Length,
-                        bytes = scanSettings.bytes,
-                        mask = scanSettings.mask
-                    };
-                    
-                }
-                progress.Setup(scanTaskSettings);
-                for (int i = 0; i < scanTasks.Length; i++)
-                {
-                    int a = i;
-                    var _settings = scanTaskSettings[a];
-                    scanTasks[i] = new Task<ListViewItem[]>(() => Scan(a, _settings, progress));
-                    scanTasks[i].Start();
-                }
+
                 btnScan.Text = "Cancel";
                 progressBar1.Visible = true;
-                ltvOccurences.Items.Clear();
+                //TODO: Make the listview use virtual mode. Populating/clearing the listview takes up the most time right now.
                 ltvOccurences.SuspendLayout();
-                progressBar1.Visible = true;
-
-                var items = await Task.WhenAll(scanTasks);
-                var allItems = items.SelectMany(x => x).DistinctBy(x => x.Tag).ToArray();
-                ltvOccurences.Items.AddRange(allItems);
+                ltvOccurences.Items.Clear();
                 ltvOccurences.ResumeLayout();
-                lblOccurences.Text = allItems.Length.ToString();
+
+                var results = await scanner.PerformScan(file.OpenRead(), settings, progress);
+
+                lblOccurences.Text = results.Length.ToString();
+                var ltvs = new ListViewItem[results.Length];
+                for (int i = 0; i < results.Length; i++)
+                {
+                    ltvs[i] = new ListViewItem(results[i].Address.ToString("X8"));
+                    ltvs[i].SubItems.Add(string.Join(" ", results[i].Bytes.Select(x => x.ToString("X2")).ToArray()));
+                }
+                ltvOccurences.SuspendLayout();
+                ltvOccurences.Items.AddRange(ltvs);
+                ltvOccurences.ResumeLayout();
+
                 btnScan.Text = "Scan";
                 progressBar1.Visible = false;
-                scanTasks = null;
+                scanner = null;
             }
             else
             {
-                cancellation.Cancel();
+                scanner.Cancel();
             }
-        }
-
-        //TODO: Move this into a seperate class, this kinda makes me throw up.
-        private ListViewItem[] Scan(int index, ScanSettings settings, ScanProgress progress)
-        {
-            var items = new List<ListViewItem>();
-            using (var str = file.OpenRead())
-            {
-                str.Position = settings.address;
-                byte[] buffer = new byte[Math.Min(1024 * 1024, settings.size)];
-                do
-                {
-                    var pos = str.Position;
-                    var count = str.Read(buffer, 0, buffer.Length);
-                    if (count == 0)
-                        break;
-
-                    for (int i = 0; i < count - settings.mask.Length && !cancellation.IsCancellationRequested; i++)
-                    {
-                        if (Matches(buffer, i, settings.bytes, settings.mask))
-                        {
-                            var ltv = new ListViewItem((pos + i).ToString("X8"));
-                            ltv.Tag = pos + i;
-                            ltv.SubItems.Add(string.Join(" ", buffer.Skip(i).Take(settings.mask.Length).Select(x => x.ToString("X2")).ToArray()));
-                            items.Add(ltv);
-                            progress.AddFinding();
-                        }
-                        //if (i % 1024 == 0)
-                        //    progress.Update(index, (settings.address - pos) + i);
-                    }
-                    progress.Update(index, str.Position - settings.address);
-                } while (
-                    !cancellation.IsCancellationRequested &&
-                    str.Position < str.Length &&
-                    str.Position < settings.address + settings.size);
-            }
-
-            return items.ToArray();
-        }
-
-        private bool Matches(byte[] data, int index, byte[] bytes, string mask)
-        {
-            for (int i = 0; i < mask.Length; i++)
-                if (mask[i] != '?' && data[index + i] != bytes[i])
-                    return false;
-
-            return true;
         }
 
         private void lnkUC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
