@@ -1,4 +1,5 @@
 ﻿using PatternScanner.DTO;
+using PatternScanner.DTO.Code;
 using PatternScanner.Parsing;
 using System;
 using System.Collections.Generic;
@@ -38,6 +39,7 @@ namespace PatternScanner.UI
                     btnApply.Enabled = codeText != null && CodeText.Rows.Length > 0 && codeText.Rows.SelectMany(x => x.Bytes).Count() > 0;
                     lblRows.Text = codeText == null ? "-" : codeText.Rows.Length.ToString();
                     lblBytes.Text = codeText == null ? "-" : codeText.Rows.SelectMany(x => x.Bytes).Count().ToString();
+                    rtbText.Text = codeText == null ? "" : codeText.Source;
                 }
             }
         }
@@ -106,7 +108,8 @@ namespace PatternScanner.UI
 
         private void rtbText_TextChanged(object sender, EventArgs e)
         {
-            CodeText = null;
+            if (codeText == null || (codeText != null && rtbText.Text != codeText.Source))
+                btnApply.Enabled = false;
         }
     }
 }

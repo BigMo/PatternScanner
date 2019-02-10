@@ -38,6 +38,9 @@
     <ApplicationIcon>Logo_256.ico</ApplicationIcon>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="HtmlAgilityPack, Version=1.8.14.0, Culture=neutral, PublicKeyToken=bd319b19eaf3b43a, processorArchitecture=MSIL">
+      <HintPath>..\packages\HtmlAgilityPack.1.8.14\lib\Net45\HtmlAgilityPack.dll</HintPath>
+    </Reference>
     <Reference Include="PeNet, Version=0.9.0.0, Culture=neutral, processorArchitecture=MSIL">
       <HintPath>..\packages\PeNet.0.9.0-alpha\lib\net461\PeNet.dll</HintPath>
     </Reference>
@@ -61,10 +64,13 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="DTO\CodeByte.cs" />
-    <Compile Include="DTO\CodeRow.cs" />
-    <Compile Include="DTO\CodeText.cs" />
+    <Compile Include="DTO\Code\CodeByte.cs" />
+    <Compile Include="DTO\Code\CodeRow.cs" />
+    <Compile Include="DTO\Code\CodeText.cs" />
+    <Compile Include="DTO\Group.cs" />
     <Compile Include="DTO\Pattern.cs" />
+    <Compile Include="DTO\Project.cs" />
+    <Compile Include="DTO\TransparentContainer.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Parsing\CEParser.cs" />
     <Compile Include="Parsing\HexParser.cs" />
@@ -78,6 +84,12 @@
     <Compile Include="Scanning\ScanProgress.cs" />
     <Compile Include="Scanning\ScanResult.cs" />
     <Compile Include="Scanning\ScanSettings.cs" />
+    <Compile Include="UI\frmAbout.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="UI\frmAbout.Designer.cs">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </Compile>
     <Compile Include="UI\frmMain.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -113,6 +125,12 @@
     <Compile Include="UI\PatternTable.Designer.cs">
       <DependentUpon>PatternTable.cs</DependentUpon>
     </Compile>
+    <Compile Include="UI\ProjectView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <EmbeddedResource Include="UI\frmAbout.resx">
+      <DependentUpon>frmAbout.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="UI\frmMain.resx">
       <DependentUpon>frmMain.cs</DependentUpon>
     </EmbeddedResource>
@@ -153,8 +171,26 @@
     <None Include="App.config" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="uc_avatar.gif" />
+    <None Include="ico_pattern.png" />
+    <None Include="ico_pattern_add.png" />
+    <None Include="ico_pattern_remove.png" />
+    <None Include="ico_group.png" />
+    <None Include="ico_group_add.png" />
+    <None Include="ico_group_remove.png" />
+    <None Include="ico_save.png" />
+    <None Include="ico_copy.png" />
+    <None Include="ico_exit.png" />
+    <None Include="ico_paste.png" />
+    <None Include="ico_project.png" />
+    <None Include="ico_parse.png" />
+    <None Include="ico_configure.png" />
+    <None Include="ico_edit.png" />
     <Content Include="Logo_256.ico" />
     <None Include="Logo_256.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Resources\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

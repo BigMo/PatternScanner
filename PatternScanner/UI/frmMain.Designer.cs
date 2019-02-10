@@ -29,7 +29,15 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("E9 ? ? ? ?");
+            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("New Group", new System.Windows.Forms.TreeNode[] {
+            treeNode1});
+            PatternScanner.DTO.Group group1 = new PatternScanner.DTO.Group();
+            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("New Project", new System.Windows.Forms.TreeNode[] {
+            treeNode2});
+            PatternScanner.DTO.Project project1 = new PatternScanner.DTO.Project();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
+            this.patternTable = new PatternScanner.UI.PatternTable();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnImport = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -46,6 +54,12 @@
             this.ltvOccurences = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.ctxOccurences = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cpyAddress = new System.Windows.Forms.ToolStripMenuItem();
+            this.cpyBytes = new System.Windows.Forms.ToolStripMenuItem();
+            this.cpyAddressBytes = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.clearAll = new System.Windows.Forms.ToolStripMenuItem();
             this.tableLayoutPanel2 = new System.Windows.Forms.TableLayoutPanel();
             this.label3 = new System.Windows.Forms.Label();
             this.btnFile = new System.Windows.Forms.Button();
@@ -56,22 +70,34 @@
             this.lblOccurences = new System.Windows.Forms.Label();
             this.cbbSection = new System.Windows.Forms.ComboBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
-            this.ctxOccurences = new System.Windows.Forms.ContextMenuStrip(this.components);
-            this.cpyAddress = new System.Windows.Forms.ToolStripMenuItem();
-            this.cpyBytes = new System.Windows.Forms.ToolStripMenuItem();
-            this.cpyAddressBytes = new System.Windows.Forms.ToolStripMenuItem();
-            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
-            this.clearAll = new System.Windows.Forms.ToolStripMenuItem();
             this.lblTime = new System.Windows.Forms.Label();
-            this.patternTable = new PatternScanner.UI.PatternTable();
+            this.mnuMain = new System.Windows.Forms.MenuStrip();
+            this.fileToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.importToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator2 = new System.Windows.Forms.ToolStripSeparator();
+            this.saveProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.openProjectToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator3 = new System.Windows.Forms.ToolStripSeparator();
+            this.exitToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.aboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.splitContainer2 = new System.Windows.Forms.SplitContainer();
+            this.imlIcons = new System.Windows.Forms.ImageList(this.components);
+            this.projectView1 = new PatternScanner.UI.ProjectView();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
-            this.tableLayoutPanel2.SuspendLayout();
             this.ctxOccurences.SuspendLayout();
+            this.tableLayoutPanel2.SuspendLayout();
+            this.mnuMain.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).BeginInit();
+            this.splitContainer2.Panel1.SuspendLayout();
+            this.splitContainer2.Panel2.SuspendLayout();
+            this.splitContainer2.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -90,9 +116,23 @@
             // 
             this.splitContainer1.Panel2.Controls.Add(this.ltvOccurences);
             this.splitContainer1.Panel2.Controls.Add(this.tableLayoutPanel2);
-            this.splitContainer1.Size = new System.Drawing.Size(887, 570);
-            this.splitContainer1.SplitterDistance = 493;
+            this.splitContainer1.Size = new System.Drawing.Size(690, 420);
+            this.splitContainer1.SplitterDistance = 296;
             this.splitContainer1.TabIndex = 7;
+            // 
+            // patternTable
+            // 
+            this.patternTable.AutoScroll = true;
+            this.patternTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.patternTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.patternTable.CodeFont = new System.Drawing.Font("Courier New", 8.25F);
+            this.patternTable.CodeText = null;
+            this.patternTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patternTable.Location = new System.Drawing.Point(0, 0);
+            this.patternTable.Name = "patternTable";
+            this.patternTable.Size = new System.Drawing.Size(296, 319);
+            this.patternTable.TabIndex = 6;
+            this.patternTable.PatternChanged += new System.EventHandler(this.patternTable_PatternChanged);
             // 
             // tableLayoutPanel1
             // 
@@ -110,23 +150,23 @@
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
             this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 469);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 319);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
             this.tableLayoutPanel1.RowCount = 4;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(493, 101);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 101);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // btnImport
             // 
-            this.btnImport.Location = new System.Drawing.Point(415, 3);
+            this.btnImport.Image = global::PatternScanner.Properties.Resources.ico_edit;
+            this.btnImport.Location = new System.Drawing.Point(270, 3);
             this.btnImport.Name = "btnImport";
-            this.btnImport.Size = new System.Drawing.Size(75, 23);
+            this.btnImport.Size = new System.Drawing.Size(23, 23);
             this.btnImport.TabIndex = 7;
-            this.btnImport.Text = "Import...";
             this.btnImport.UseVisualStyleBackColor = true;
             this.btnImport.Click += new System.EventHandler(this.btnImport_Click);
             // 
@@ -153,26 +193,37 @@
             // txbBytes
             // 
             this.txbBytes.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbBytes.BackColor = System.Drawing.SystemColors.Window;
+            this.txbBytes.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.txbBytes.Location = new System.Drawing.Point(50, 4);
             this.txbBytes.Name = "txbBytes";
-            this.txbBytes.Size = new System.Drawing.Size(359, 20);
+            this.txbBytes.ReadOnly = true;
+            this.txbBytes.Size = new System.Drawing.Size(214, 20);
             this.txbBytes.TabIndex = 1;
             // 
             // txbMask
             // 
             this.txbMask.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbMask.BackColor = System.Drawing.SystemColors.Window;
+            this.tableLayoutPanel1.SetColumnSpan(this.txbMask, 2);
+            this.txbMask.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.txbMask.Location = new System.Drawing.Point(50, 32);
             this.txbMask.Name = "txbMask";
-            this.txbMask.Size = new System.Drawing.Size(359, 20);
+            this.txbMask.ReadOnly = true;
+            this.txbMask.Size = new System.Drawing.Size(243, 20);
             this.txbMask.TabIndex = 1;
             this.txbMask.TextChanged += new System.EventHandler(this.txbMask_TextChanged);
             // 
             // txbPattern
             // 
             this.txbPattern.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.txbPattern.BackColor = System.Drawing.SystemColors.Window;
+            this.tableLayoutPanel1.SetColumnSpan(this.txbPattern, 2);
+            this.txbPattern.Font = new System.Drawing.Font("Courier New", 8.25F);
             this.txbPattern.Location = new System.Drawing.Point(50, 58);
             this.txbPattern.Name = "txbPattern";
-            this.txbPattern.Size = new System.Drawing.Size(359, 20);
+            this.txbPattern.ReadOnly = true;
+            this.txbPattern.Size = new System.Drawing.Size(243, 20);
             this.txbPattern.TabIndex = 1;
             this.txbPattern.TextChanged += new System.EventHandler(this.txbMask_TextChanged);
             // 
@@ -204,7 +255,7 @@
             this.tableLayoutPanel3.Name = "tableLayoutPanel3";
             this.tableLayoutPanel3.RowCount = 1;
             this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(493, 20);
+            this.tableLayoutPanel3.Size = new System.Drawing.Size(296, 20);
             this.tableLayoutPanel3.TabIndex = 8;
             // 
             // lnkUC
@@ -266,7 +317,7 @@
             this.ltvOccurences.FullRowSelect = true;
             this.ltvOccurences.Location = new System.Drawing.Point(0, 0);
             this.ltvOccurences.Name = "ltvOccurences";
-            this.ltvOccurences.Size = new System.Drawing.Size(390, 466);
+            this.ltvOccurences.Size = new System.Drawing.Size(390, 316);
             this.ltvOccurences.TabIndex = 0;
             this.ltvOccurences.UseCompatibleStateImageBehavior = false;
             this.ltvOccurences.View = System.Windows.Forms.View.Details;
@@ -282,6 +333,51 @@
             // 
             this.columnHeader2.Text = "Bytes";
             this.columnHeader2.Width = 239;
+            // 
+            // ctxOccurences
+            // 
+            this.ctxOccurences.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cpyAddress,
+            this.cpyBytes,
+            this.cpyAddressBytes,
+            this.toolStripSeparator1,
+            this.clearAll});
+            this.ctxOccurences.Name = "ctxOccurences";
+            this.ctxOccurences.Size = new System.Drawing.Size(188, 98);
+            this.ctxOccurences.Opening += new System.ComponentModel.CancelEventHandler(this.ctxOccurences_Opening);
+            // 
+            // cpyAddress
+            // 
+            this.cpyAddress.Name = "cpyAddress";
+            this.cpyAddress.Size = new System.Drawing.Size(187, 22);
+            this.cpyAddress.Text = "Copy address";
+            this.cpyAddress.Click += new System.EventHandler(this.cpyAddress_Click);
+            // 
+            // cpyBytes
+            // 
+            this.cpyBytes.Name = "cpyBytes";
+            this.cpyBytes.Size = new System.Drawing.Size(187, 22);
+            this.cpyBytes.Text = "Copy bytes";
+            this.cpyBytes.Click += new System.EventHandler(this.cpyBytes_Click);
+            // 
+            // cpyAddressBytes
+            // 
+            this.cpyAddressBytes.Name = "cpyAddressBytes";
+            this.cpyAddressBytes.Size = new System.Drawing.Size(187, 22);
+            this.cpyAddressBytes.Text = "Copy address + bytes";
+            this.cpyAddressBytes.Click += new System.EventHandler(this.cpyAddressBytes_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
+            // 
+            // clearAll
+            // 
+            this.clearAll.Name = "clearAll";
+            this.clearAll.Size = new System.Drawing.Size(187, 22);
+            this.clearAll.Text = "Clear all";
+            this.clearAll.Click += new System.EventHandler(this.clearAll_Click);
             // 
             // tableLayoutPanel2
             // 
@@ -301,7 +397,7 @@
             this.tableLayoutPanel2.Controls.Add(this.progressBar1, 1, 3);
             this.tableLayoutPanel2.Controls.Add(this.lblTime, 2, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 466);
+            this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 316);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
             this.tableLayoutPanel2.RowCount = 4;
             this.tableLayoutPanel2.RowStyles.Add(new System.Windows.Forms.RowStyle());
@@ -406,51 +502,6 @@
             this.progressBar1.Size = new System.Drawing.Size(232, 23);
             this.progressBar1.TabIndex = 4;
             // 
-            // ctxOccurences
-            // 
-            this.ctxOccurences.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.cpyAddress,
-            this.cpyBytes,
-            this.cpyAddressBytes,
-            this.toolStripSeparator1,
-            this.clearAll});
-            this.ctxOccurences.Name = "ctxOccurences";
-            this.ctxOccurences.Size = new System.Drawing.Size(188, 98);
-            this.ctxOccurences.Opening += new System.ComponentModel.CancelEventHandler(this.ctxOccurences_Opening);
-            // 
-            // cpyAddress
-            // 
-            this.cpyAddress.Name = "cpyAddress";
-            this.cpyAddress.Size = new System.Drawing.Size(187, 22);
-            this.cpyAddress.Text = "Copy address";
-            this.cpyAddress.Click += new System.EventHandler(this.cpyAddress_Click);
-            // 
-            // cpyBytes
-            // 
-            this.cpyBytes.Name = "cpyBytes";
-            this.cpyBytes.Size = new System.Drawing.Size(187, 22);
-            this.cpyBytes.Text = "Copy bytes";
-            this.cpyBytes.Click += new System.EventHandler(this.cpyBytes_Click);
-            // 
-            // cpyAddressBytes
-            // 
-            this.cpyAddressBytes.Name = "cpyAddressBytes";
-            this.cpyAddressBytes.Size = new System.Drawing.Size(187, 22);
-            this.cpyAddressBytes.Text = "Copy address + bytes";
-            this.cpyAddressBytes.Click += new System.EventHandler(this.cpyAddressBytes_Click);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
-            // 
-            // clearAll
-            // 
-            this.clearAll.Name = "clearAll";
-            this.clearAll.Size = new System.Drawing.Size(187, 22);
-            this.clearAll.Text = "Clear all";
-            this.clearAll.Click += new System.EventHandler(this.clearAll_Click);
-            // 
             // lblTime
             // 
             this.lblTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
@@ -462,26 +513,148 @@
             this.lblTime.TabIndex = 0;
             this.lblTime.Text = "-";
             // 
-            // patternTable
+            // mnuMain
             // 
-            this.patternTable.AutoScroll = true;
-            this.patternTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.patternTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.patternTable.CodeFont = new System.Drawing.Font("Courier New", 8.25F);
-            this.patternTable.CodeText = null;
-            this.patternTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patternTable.Location = new System.Drawing.Point(0, 0);
-            this.patternTable.Name = "patternTable";
-            this.patternTable.Size = new System.Drawing.Size(493, 469);
-            this.patternTable.TabIndex = 6;
-            this.patternTable.PatternChanged += new System.EventHandler(this.patternTable_PatternChanged);
+            this.mnuMain.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.fileToolStripMenuItem,
+            this.helpToolStripMenuItem});
+            this.mnuMain.Location = new System.Drawing.Point(0, 0);
+            this.mnuMain.Name = "mnuMain";
+            this.mnuMain.Size = new System.Drawing.Size(887, 24);
+            this.mnuMain.TabIndex = 9;
+            this.mnuMain.Text = "menuStrip1";
+            // 
+            // fileToolStripMenuItem
+            // 
+            this.fileToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.openToolStripMenuItem,
+            this.importToolStripMenuItem,
+            this.toolStripSeparator2,
+            this.saveProjectToolStripMenuItem,
+            this.openProjectToolStripMenuItem,
+            this.toolStripSeparator3,
+            this.exitToolStripMenuItem});
+            this.fileToolStripMenuItem.Name = "fileToolStripMenuItem";
+            this.fileToolStripMenuItem.Size = new System.Drawing.Size(37, 20);
+            this.fileToolStripMenuItem.Text = "File";
+            // 
+            // openToolStripMenuItem
+            // 
+            this.openToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_group;
+            this.openToolStripMenuItem.Name = "openToolStripMenuItem";
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openToolStripMenuItem.Text = "Open...";
+            // 
+            // importToolStripMenuItem
+            // 
+            this.importToolStripMenuItem.Name = "importToolStripMenuItem";
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.importToolStripMenuItem.Text = "Import...";
+            // 
+            // toolStripSeparator2
+            // 
+            this.toolStripSeparator2.Name = "toolStripSeparator2";
+            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
+            // 
+            // saveProjectToolStripMenuItem
+            // 
+            this.saveProjectToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_save;
+            this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveProjectToolStripMenuItem.Text = "Save project";
+            // 
+            // openProjectToolStripMenuItem
+            // 
+            this.openProjectToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_group;
+            this.openProjectToolStripMenuItem.Name = "openProjectToolStripMenuItem";
+            this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openProjectToolStripMenuItem.Text = "Open project";
+            // 
+            // toolStripSeparator3
+            // 
+            this.toolStripSeparator3.Name = "toolStripSeparator3";
+            this.toolStripSeparator3.Size = new System.Drawing.Size(140, 6);
+            // 
+            // exitToolStripMenuItem
+            // 
+            this.exitToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_exit;
+            this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Text = "Exit";
+            // 
+            // helpToolStripMenuItem
+            // 
+            this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.aboutToolStripMenuItem});
+            this.helpToolStripMenuItem.Name = "helpToolStripMenuItem";
+            this.helpToolStripMenuItem.Size = new System.Drawing.Size(44, 20);
+            this.helpToolStripMenuItem.Text = "Help";
+            // 
+            // aboutToolStripMenuItem
+            // 
+            this.aboutToolStripMenuItem.Name = "aboutToolStripMenuItem";
+            this.aboutToolStripMenuItem.Size = new System.Drawing.Size(107, 22);
+            this.aboutToolStripMenuItem.Text = "About";
+            this.aboutToolStripMenuItem.Click += new System.EventHandler(this.aboutToolStripMenuItem_Click);
+            // 
+            // splitContainer2
+            // 
+            this.splitContainer2.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.splitContainer2.FixedPanel = System.Windows.Forms.FixedPanel.Panel1;
+            this.splitContainer2.Location = new System.Drawing.Point(0, 24);
+            this.splitContainer2.Name = "splitContainer2";
+            // 
+            // splitContainer2.Panel1
+            // 
+            this.splitContainer2.Panel1.Controls.Add(this.projectView1);
+            // 
+            // splitContainer2.Panel2
+            // 
+            this.splitContainer2.Panel2.Controls.Add(this.splitContainer1);
+            this.splitContainer2.Size = new System.Drawing.Size(887, 420);
+            this.splitContainer2.SplitterDistance = 193;
+            this.splitContainer2.TabIndex = 10;
+            // 
+            // imlIcons
+            // 
+            this.imlIcons.ColorDepth = System.Windows.Forms.ColorDepth.Depth32Bit;
+            this.imlIcons.ImageSize = new System.Drawing.Size(16, 16);
+            this.imlIcons.TransparentColor = System.Drawing.Color.Transparent;
+            // 
+            // projectView1
+            // 
+            this.projectView1.FullRowSelect = true;
+            this.projectView1.ImageIndex = 0;
+            this.projectView1.Location = new System.Drawing.Point(3, 3);
+            this.projectView1.Name = "projectView1";
+            treeNode1.ImageIndex = 2;
+            treeNode1.Name = "E9 ? ? ? ?";
+            treeNode1.Text = "E9 ? ? ? ?";
+            treeNode2.ImageIndex = 1;
+            treeNode2.Name = "New Group";
+            group1.Name = "New Group";
+            treeNode2.Tag = group1;
+            treeNode2.Text = "New Group";
+            treeNode3.ImageIndex = 0;
+            treeNode3.Name = "New Project";
+            project1.Name = "New Project";
+            treeNode3.Tag = project1;
+            treeNode3.Text = "New Project";
+            this.projectView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
+            treeNode3});
+            this.projectView1.Project = project1;
+            this.projectView1.SelectedImageIndex = 0;
+            this.projectView1.Size = new System.Drawing.Size(148, 292);
+            this.projectView1.TabIndex = 0;
             // 
             // frmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(887, 570);
-            this.Controls.Add(this.splitContainer1);
+            this.ClientSize = new System.Drawing.Size(887, 444);
+            this.Controls.Add(this.splitContainer2);
+            this.Controls.Add(this.mnuMain);
+            this.MainMenuStrip = this.mnuMain;
             this.Name = "frmMain";
             this.Text = "PatternScanner";
             this.splitContainer1.Panel1.ResumeLayout(false);
@@ -494,10 +667,17 @@
             this.tableLayoutPanel1.PerformLayout();
             this.tableLayoutPanel3.ResumeLayout(false);
             this.tableLayoutPanel3.PerformLayout();
+            this.ctxOccurences.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
-            this.ctxOccurences.ResumeLayout(false);
+            this.mnuMain.ResumeLayout(false);
+            this.mnuMain.PerformLayout();
+            this.splitContainer2.Panel1.ResumeLayout(false);
+            this.splitContainer2.Panel2.ResumeLayout(false);
+            ((System.ComponentModel.ISupportInitialize)(this.splitContainer2)).EndInit();
+            this.splitContainer2.ResumeLayout(false);
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
@@ -537,6 +717,20 @@
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripMenuItem clearAll;
         private System.Windows.Forms.Label lblTime;
+        private System.Windows.Forms.MenuStrip mnuMain;
+        private System.Windows.Forms.ToolStripMenuItem fileToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem importToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator2;
+        private System.Windows.Forms.ToolStripMenuItem saveProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem openProjectToolStripMenuItem;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator3;
+        private System.Windows.Forms.ToolStripMenuItem exitToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
+        private System.Windows.Forms.SplitContainer splitContainer2;
+        private System.Windows.Forms.ImageList imlIcons;
+        private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem;
+        private ProjectView projectView1;
     }
 }
 

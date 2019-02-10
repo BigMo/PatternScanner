@@ -1,4 +1,5 @@
-﻿using System;
+﻿using PatternScanner.Parsing;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,8 @@ namespace PatternScanner.DTO
         public string Mask => string.Join("", Wildcards.Select(x => x ? "?" : "x").ToArray());
         public string BytesString => string.Join(" ", Bytes.Select(x => x.ToString("X2")).ToArray());
 
+        public string Source { get; private set; }
+
         public string HybridPattern
         {
             get
@@ -25,21 +28,22 @@ namespace PatternScanner.DTO
             }
         }
 
-        public Pattern(string mask, byte[] bytes) : this(mask.Select(x => x == '?' ? true : false).ToArray(), bytes) { }
+        public Pattern(string mask, byte[] bytes, string source) : this(mask.Select(x => x == '?' ? true : false).ToArray(), bytes, source) { }
 
-        public Pattern(bool[] wildcards, byte[] bytes)
+        public Pattern(bool[] wildcards, byte[] bytes, string source)
         {
             Wildcards = wildcards;
             Bytes = bytes;
+            Source = source;
         }
 
         public static Pattern FromString(string pattern)
         {
             var parts = pattern.Split(new char[] { ' ', '\t' }, StringSplitOptions.RemoveEmptyEntries);
             var bytes = parts.Select(x => (x == "??" || x == "?") ? (byte)0 : byte.Parse(x, System.Globalization.NumberStyles.HexNumber)).ToArray();
-            var mask = string.Join(" ", parts.Select(x => (x == "??" || x == "?") ? "?" : "x").ToArray());
+            var mask = string.Join("", parts.Select(x => (x == "??" || x == "?") ? "?" : "x").ToArray());
 
-            return new Pattern(mask, bytes);
+            return new Pattern(mask, bytes, pattern);
         }
 
         public override string ToString()

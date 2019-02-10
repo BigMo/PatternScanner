@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Text.RegularExpressions;
 
-namespace PatternScanner.DTO
+namespace PatternScanner.DTO.Code
 {
     public class CodeText
     {
@@ -13,13 +13,16 @@ namespace PatternScanner.DTO
         public Pattern Pattern =>
             new Pattern(
                 string.Join("", Rows.Select(x => x.MaskString).ToArray()),
-                Rows.SelectMany(x => x.AllBytes).ToArray()
+                Rows.SelectMany(x => x.AllBytes).ToArray(),
+                Source
                 );
 
         public event EventHandler PatternChanged;
+        public string Source { get; private set; }
 
-        public CodeText(CodeRow[] rows)
+        public CodeText(CodeRow[] rows, string source)
         {
+            Source = source;
             Rows = rows;
             foreach (var r in rows)
                 r.PatternChanged += (o, e) => PatternChanged?.Invoke(this, EventArgs.Empty);

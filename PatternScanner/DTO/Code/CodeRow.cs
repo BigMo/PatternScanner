@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Linq;
 
-namespace PatternScanner.DTO
+namespace PatternScanner.DTO.Code
 {
     public class CodeRow : IEquatable<CodeRow>
     {

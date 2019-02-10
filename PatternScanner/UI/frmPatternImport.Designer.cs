@@ -135,7 +135,7 @@
             this.btnCancel.Location = new System.Drawing.Point(3, 70);
             this.btnCancel.Name = "btnCancel";
             this.btnCancel.Size = new System.Drawing.Size(75, 23);
-            this.btnCancel.TabIndex = 2;
+            this.btnCancel.TabIndex = 6;
             this.btnCancel.Text = "Cancel";
             this.btnCancel.UseVisualStyleBackColor = true;
             // 
@@ -169,7 +169,7 @@
             this.btnApply.Location = new System.Drawing.Point(695, 70);
             this.btnApply.Name = "btnApply";
             this.btnApply.Size = new System.Drawing.Size(75, 23);
-            this.btnApply.TabIndex = 2;
+            this.btnApply.TabIndex = 3;
             this.btnApply.Text = "Apply";
             this.btnApply.UseVisualStyleBackColor = true;
             // 
@@ -177,6 +177,8 @@
             // 
             this.btnParse.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Top | System.Windows.Forms.AnchorStyles.Right)));
             this.btnParse.Enabled = false;
+            this.btnParse.Image = global::PatternScanner.Properties.Resources.ico_parse;
+            this.btnParse.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnParse.Location = new System.Drawing.Point(695, 3);
             this.btnParse.Name = "btnParse";
             this.btnParse.Size = new System.Drawing.Size(75, 23);
@@ -206,10 +208,12 @@
             // btnReadFile
             // 
             this.btnReadFile.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnReadFile.Image = global::PatternScanner.Properties.Resources.ico_group;
+            this.btnReadFile.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnReadFile.Location = new System.Drawing.Point(3, 3);
             this.btnReadFile.Name = "btnReadFile";
             this.btnReadFile.Size = new System.Drawing.Size(104, 23);
-            this.btnReadFile.TabIndex = 0;
+            this.btnReadFile.TabIndex = 4;
             this.btnReadFile.Text = "Read file...";
             this.btnReadFile.UseVisualStyleBackColor = true;
             this.btnReadFile.Click += new System.EventHandler(this.btnReadFile_Click);
@@ -217,11 +221,13 @@
             // btnClipboard
             // 
             this.btnClipboard.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
+            this.btnClipboard.Image = global::PatternScanner.Properties.Resources.ico_paste;
+            this.btnClipboard.ImageAlign = System.Drawing.ContentAlignment.MiddleLeft;
             this.btnClipboard.Location = new System.Drawing.Point(3, 32);
             this.btnClipboard.Name = "btnClipboard";
             this.btnClipboard.Size = new System.Drawing.Size(104, 23);
-            this.btnClipboard.TabIndex = 0;
-            this.btnClipboard.Text = "From Clipboard";
+            this.btnClipboard.TabIndex = 5;
+            this.btnClipboard.Text = "Paste";
             this.btnClipboard.UseVisualStyleBackColor = true;
             this.btnClipboard.Click += new System.EventHandler(this.btnClipboard_Click);
             // 

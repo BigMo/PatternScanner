@@ -90,6 +90,7 @@ namespace PatternScanner.UI
         {
             InitializeComponent();
             Icon = Properties.Resources.Logo_256;
+            var proj = new ProjectView();
 
             //progress = new ScanProgress();
             //progress.MadeProgress += (o, e) =>
@@ -141,6 +142,7 @@ namespace PatternScanner.UI
         {
             using (var frm = new frmPatternImport())
             {
+                frm.CodeText = patternTable.CodeText;
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
                     patternTable.CodeText = frm.CodeText;
@@ -300,6 +302,14 @@ namespace PatternScanner.UI
             var items = ltvOccurences.SelectedIndices.Cast<int>();
             var results = items.Select(x => lastResults[x]);
             CopyToClipboard(results, true, true);
+        }
+
+        private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var frm = new frmAbout())
+            {
+                frm.ShowDialog();
+            }
         }
     }
 }

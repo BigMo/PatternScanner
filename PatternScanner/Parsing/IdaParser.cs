@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using PatternScanner.DTO;
+using PatternScanner.DTO.Code;
 
 namespace PatternScanner.Parsing
 {
@@ -28,7 +29,7 @@ namespace PatternScanner.Parsing
                 var asm = match.Groups[4].Value.Trim();
                 codeRows.Add(new CodeRow(bytes.Select(x => new CodeByte(int.Parse(x.Trim(), System.Globalization.NumberStyles.HexNumber))).ToArray(), asm));
             }
-            return new CodeText(codeRows.ToArray());
+            return new CodeText(codeRows.ToArray(), text);
         }
     }
 }

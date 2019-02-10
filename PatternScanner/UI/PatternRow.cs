@@ -3,6 +3,7 @@ using System.Data;
 using System.Linq;
 using System.Windows.Forms;
 using PatternScanner.DTO;
+using PatternScanner.DTO.Code;
 
 namespace PatternScanner.UI
 {

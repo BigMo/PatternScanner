@@ -5,6 +5,7 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
 using PatternScanner.DTO;
+using PatternScanner.DTO.Code;
 
 namespace PatternScanner.Parsing
 {
@@ -35,7 +36,7 @@ namespace PatternScanner.Parsing
                 var asm = string.Join(" ", bytes.Select(x => x.Wildcard ? "??" : x.Value.ToString("X2")).ToArray());
                 codeRows.Add(new CodeRow(bytes, asm));
             }
-            return new CodeText(codeRows.ToArray());
+            return new CodeText(codeRows.ToArray(), text);
         }
     }
 }

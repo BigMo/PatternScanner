@@ -1,4 +1,5 @@
 ﻿using PatternScanner.DTO;
+using PatternScanner.DTO.Code;
 using System;
 using System.Collections.Generic;
 using System.Linq;

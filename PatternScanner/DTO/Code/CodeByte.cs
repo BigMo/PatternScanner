@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace PatternScanner.DTO
+namespace PatternScanner.DTO.Code
 {
     public class CodeByte : IEquatable<CodeByte>
     {
