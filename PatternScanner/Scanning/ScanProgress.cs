@@ -9,8 +9,9 @@ namespace PatternScanner.Scanning
     public class ScanProgress
     {
         private object findingLock, progressLock;
+        private int findings;
 
-        public int Findings { get; private set; }
+        public int Findings => findings;
         public int BytesScanned { get; private set; }
         public int ProgressPercent { get; private set; }
         public ScanSettings Settings { get; private set; }
@@ -24,17 +25,25 @@ namespace PatternScanner.Scanning
             findingLock = new object();
             progressLock = new object();
             Settings = settings;
-            Findings = 0;
+            findings = 0;
             BytesScanned = 0;
             ProgressPercent = 0;
         }
 
         public void Found()
         {
-            lock (findingLock)
+            findings++;
+            if (findings < 10 ||
+                (findings < 100 && findings % 10 == 0) ||
+                (findings < 1000 && findings % 100 == 0) ||
+                (findings < 10000 && findings % 1000 == 0) ||
+                (findings < 100000 && findings % 10000 == 0) ||
+                    findings % 100000 == 0)
             {
-                Findings++;
-                PatternFound?.Invoke(this, EventArgs.Empty);
+                lock (findingLock)
+                {
+                    PatternFound?.Invoke(this, EventArgs.Empty);
+                }
             }
         }
 

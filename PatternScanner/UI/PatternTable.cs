@@ -21,6 +21,7 @@ namespace PatternScanner.UI
                     if (codeText != null)
                         AddRows();
                     table.ResumeLayout();
+                    PatternChanged?.Invoke(this, EventArgs.Empty);
                 }
             }
         }

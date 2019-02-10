@@ -28,6 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
+            this.components = new System.ComponentModel.Container();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnImport = new System.Windows.Forms.Button();
@@ -55,6 +56,13 @@
             this.lblOccurences = new System.Windows.Forms.Label();
             this.cbbSection = new System.Windows.Forms.ComboBox();
             this.progressBar1 = new System.Windows.Forms.ProgressBar();
+            this.ctxOccurences = new System.Windows.Forms.ContextMenuStrip(this.components);
+            this.cpyAddress = new System.Windows.Forms.ToolStripMenuItem();
+            this.cpyBytes = new System.Windows.Forms.ToolStripMenuItem();
+            this.cpyAddressBytes = new System.Windows.Forms.ToolStripMenuItem();
+            this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
+            this.clearAll = new System.Windows.Forms.ToolStripMenuItem();
+            this.lblTime = new System.Windows.Forms.Label();
             this.patternTable = new PatternScanner.UI.PatternTable();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
@@ -63,6 +71,7 @@
             this.tableLayoutPanel1.SuspendLayout();
             this.tableLayoutPanel3.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
+            this.ctxOccurences.SuspendLayout();
             this.SuspendLayout();
             // 
             // splitContainer1
@@ -251,14 +260,18 @@
             this.ltvOccurences.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.ltvOccurences.ContextMenuStrip = this.ctxOccurences;
             this.ltvOccurences.Dock = System.Windows.Forms.DockStyle.Fill;
             this.ltvOccurences.Font = new System.Drawing.Font("Courier New", 8.25F);
+            this.ltvOccurences.FullRowSelect = true;
             this.ltvOccurences.Location = new System.Drawing.Point(0, 0);
             this.ltvOccurences.Name = "ltvOccurences";
             this.ltvOccurences.Size = new System.Drawing.Size(390, 466);
             this.ltvOccurences.TabIndex = 0;
             this.ltvOccurences.UseCompatibleStateImageBehavior = false;
             this.ltvOccurences.View = System.Windows.Forms.View.Details;
+            this.ltvOccurences.VirtualMode = true;
+            this.ltvOccurences.RetrieveVirtualItem += new System.Windows.Forms.RetrieveVirtualItemEventHandler(this.ltvOccurences_RetrieveVirtualItem);
             // 
             // columnHeader1
             // 
@@ -286,6 +299,7 @@
             this.tableLayoutPanel2.Controls.Add(this.lblOccurences, 1, 2);
             this.tableLayoutPanel2.Controls.Add(this.cbbSection, 1, 1);
             this.tableLayoutPanel2.Controls.Add(this.progressBar1, 1, 3);
+            this.tableLayoutPanel2.Controls.Add(this.lblTime, 2, 2);
             this.tableLayoutPanel2.Dock = System.Windows.Forms.DockStyle.Bottom;
             this.tableLayoutPanel2.Location = new System.Drawing.Point(0, 466);
             this.tableLayoutPanel2.Name = "tableLayoutPanel2";
@@ -365,9 +379,9 @@
             // 
             // lblOccurences
             // 
-            this.lblOccurences.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblOccurences.Anchor = System.Windows.Forms.AnchorStyles.Right;
             this.lblOccurences.AutoSize = true;
-            this.lblOccurences.Location = new System.Drawing.Point(74, 59);
+            this.lblOccurences.Location = new System.Drawing.Point(296, 59);
             this.lblOccurences.Margin = new System.Windows.Forms.Padding(3);
             this.lblOccurences.Name = "lblOccurences";
             this.lblOccurences.Size = new System.Drawing.Size(10, 13);
@@ -391,6 +405,62 @@
             this.progressBar1.Name = "progressBar1";
             this.progressBar1.Size = new System.Drawing.Size(232, 23);
             this.progressBar1.TabIndex = 4;
+            // 
+            // ctxOccurences
+            // 
+            this.ctxOccurences.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.cpyAddress,
+            this.cpyBytes,
+            this.cpyAddressBytes,
+            this.toolStripSeparator1,
+            this.clearAll});
+            this.ctxOccurences.Name = "ctxOccurences";
+            this.ctxOccurences.Size = new System.Drawing.Size(188, 98);
+            this.ctxOccurences.Opening += new System.ComponentModel.CancelEventHandler(this.ctxOccurences_Opening);
+            // 
+            // cpyAddress
+            // 
+            this.cpyAddress.Name = "cpyAddress";
+            this.cpyAddress.Size = new System.Drawing.Size(187, 22);
+            this.cpyAddress.Text = "Copy address";
+            this.cpyAddress.Click += new System.EventHandler(this.cpyAddress_Click);
+            // 
+            // cpyBytes
+            // 
+            this.cpyBytes.Name = "cpyBytes";
+            this.cpyBytes.Size = new System.Drawing.Size(187, 22);
+            this.cpyBytes.Text = "Copy bytes";
+            this.cpyBytes.Click += new System.EventHandler(this.cpyBytes_Click);
+            // 
+            // cpyAddressBytes
+            // 
+            this.cpyAddressBytes.Name = "cpyAddressBytes";
+            this.cpyAddressBytes.Size = new System.Drawing.Size(187, 22);
+            this.cpyAddressBytes.Text = "Copy address + bytes";
+            this.cpyAddressBytes.Click += new System.EventHandler(this.cpyAddressBytes_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(184, 6);
+            // 
+            // clearAll
+            // 
+            this.clearAll.Name = "clearAll";
+            this.clearAll.Size = new System.Drawing.Size(187, 22);
+            this.clearAll.Text = "Clear all";
+            this.clearAll.Click += new System.EventHandler(this.clearAll_Click);
+            // 
+            // lblTime
+            // 
+            this.lblTime.Anchor = System.Windows.Forms.AnchorStyles.Left;
+            this.lblTime.AutoSize = true;
+            this.lblTime.Location = new System.Drawing.Point(312, 59);
+            this.lblTime.Margin = new System.Windows.Forms.Padding(3);
+            this.lblTime.Name = "lblTime";
+            this.lblTime.Size = new System.Drawing.Size(10, 13);
+            this.lblTime.TabIndex = 0;
+            this.lblTime.Text = "-";
             // 
             // patternTable
             // 
@@ -426,6 +496,7 @@
             this.tableLayoutPanel3.PerformLayout();
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
+            this.ctxOccurences.ResumeLayout(false);
             this.ResumeLayout(false);
 
         }
@@ -439,7 +510,6 @@
         private System.Windows.Forms.TextBox txbMask;
         private System.Windows.Forms.Button btnImport;
         private System.Windows.Forms.SplitContainer splitContainer1;
-        private System.Windows.Forms.ListView ltvOccurences;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TableLayoutPanel tableLayoutPanel2;
@@ -459,6 +529,14 @@
         private System.Windows.Forms.Label label6;
         private System.Windows.Forms.LinkLabel lnkGithub;
         private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.ListView ltvOccurences;
+        private System.Windows.Forms.ContextMenuStrip ctxOccurences;
+        private System.Windows.Forms.ToolStripMenuItem cpyAddress;
+        private System.Windows.Forms.ToolStripMenuItem cpyBytes;
+        private System.Windows.Forms.ToolStripMenuItem cpyAddressBytes;
+        private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
+        private System.Windows.Forms.ToolStripMenuItem clearAll;
+        private System.Windows.Forms.Label lblTime;
     }
 }
 

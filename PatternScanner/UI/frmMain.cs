@@ -8,6 +8,7 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
 using System.Linq;
+using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
@@ -44,6 +45,7 @@ namespace PatternScanner.UI
         private FileInfo file;
         private PeFile peFile;
         private MultithreadedScanner scanner;
+        private ScanResult[] lastResults = new ScanResult[0];
         //private Task<ListViewItem[]>[] scanTasks;
         //private CancellationTokenSource cancellation;
         //private ScanProgress progress;
@@ -168,6 +170,24 @@ namespace PatternScanner.UI
             }
         }
 
+        private Task ClearResults()
+        {
+            return Task.Factory.StartNew(() =>
+            {
+                lastResults = new ScanResult[0];
+                this.Invoke((MethodInvoker)delegate
+                {
+                    ltvOccurences.BeginUpdate();
+                    ltvOccurences.VirtualListSize = 0;
+                    ltvOccurences.EndUpdate();
+                    lblOccurences.Text = "-";
+                    lblTime.Text = "-";
+                });
+                GC.Collect();
+                GC.WaitForPendingFinalizers();
+            });
+        }
+
         private async void btnScan_Click(object sender, EventArgs e)
         {
             if (scanner == null)
@@ -180,37 +200,24 @@ namespace PatternScanner.UI
                     patternTable.CodeText.Pattern);
 
                 var progress = new ScanProgress(settings);
-                progress.MadeProgressPercent += (_o, _e) => this.Invoke((MethodInvoker)delegate { progressBar1.Value = progress.ProgressPercent; });
-                progress.PatternFound += (_o, _e) =>
-                {
-                    if (progress.Findings < 10 ||
-                    (progress.Findings < 100 && progress.Findings % 10 == 0) ||
-                    (progress.Findings < 1000 && progress.Findings % 100 == 0) ||
-                    (progress.Findings < 10000 && progress.Findings % 1000 == 0) ||
-                    (progress.Findings < 100000 && progress.Findings % 10000 == 0) ||
-                        progress.Findings % 100000 == 0)
-                        this.Invoke((MethodInvoker)delegate { this.lblOccurences.Text = progress.Findings.ToString(); });
-                };
+                progress.MadeProgressPercent += (_o, _e) => 
+                    this.Invoke((MethodInvoker)delegate { progressBar1.Value = progress.ProgressPercent; });
+                progress.PatternFound += (_o, _e) => 
+                    this.Invoke((MethodInvoker)delegate { this.lblOccurences.Text = progress.Findings.ToString("N0"); });
 
+                var watch = new Stopwatch();
+                watch.Start();
+                await ClearResults();
                 btnScan.Text = "Cancel";
                 progressBar1.Visible = true;
-                //TODO: Make the listview use virtual mode. Populating/clearing the listview takes up the most time right now.
-                ltvOccurences.SuspendLayout();
-                ltvOccurences.Items.Clear();
-                ltvOccurences.ResumeLayout();
+                lastResults = await scanner.PerformScan(file.OpenRead(), settings, progress);
+                watch.Stop();
 
-                var results = await scanner.PerformScan(file.OpenRead(), settings, progress);
-
-                lblOccurences.Text = results.Length.ToString();
-                var ltvs = new ListViewItem[results.Length];
-                for (int i = 0; i < results.Length; i++)
-                {
-                    ltvs[i] = new ListViewItem(results[i].Address.ToString("X8"));
-                    ltvs[i].SubItems.Add(string.Join(" ", results[i].Bytes.Select(x => x.ToString("X2")).ToArray()));
-                }
-                ltvOccurences.SuspendLayout();
-                ltvOccurences.Items.AddRange(ltvs);
-                ltvOccurences.ResumeLayout();
+                lblOccurences.Text = lastResults.Length.ToString("N0");
+                lblTime.Text = watch.Elapsed.ToString(@"hh\:mm\:ss\.fff");
+                ltvOccurences.BeginUpdate();
+                ltvOccurences.VirtualListSize = lastResults.Length;
+                ltvOccurences.EndUpdate();
 
                 btnScan.Text = "Scan";
                 progressBar1.Visible = false;
@@ -230,6 +237,69 @@ namespace PatternScanner.UI
         private void lnkGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
         {
             Process.Start("https://github.com/BigMo/PatternScanner");
+        }
+
+        private void ltvOccurences_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
+        {
+            e.Item = null;
+            if (e.ItemIndex < lastResults.Length)
+            {
+                e.Item = new ListViewItem(lastResults[e.ItemIndex].Address.ToString("X8"));
+                e.Item.SubItems.Add(string.Join(" ", lastResults[e.ItemIndex].Bytes.Select(x => x.ToString("X2")).ToArray()));
+                e.Item.Tag = lastResults[e.ItemIndex];
+            }
+        }
+
+        private void ctxOccurences_Opening(object sender, System.ComponentModel.CancelEventArgs e)
+        {
+            var items = ltvOccurences.SelectedIndices.Cast<int>();
+
+            cpyAddress.Enabled = cpyBytes.Enabled = cpyAddressBytes.Enabled = items.Any();
+            clearAll.Enabled = lastResults.Length > 0;
+        }
+
+        private async void clearAll_Click(object sender, EventArgs e)
+        {
+            await ClearResults();
+        }
+        
+        private void CopyToClipboard(IEnumerable<ScanResult> results, bool copyAddress, bool copyBytes)
+        {
+            var builder = new StringBuilder();
+            foreach(var res in results)
+            {
+                if (copyAddress)
+                    builder.Append(res.Address.ToString("X8"));
+
+                if (copyBytes) {
+                    if (copyAddress)
+                        builder.Append(": ");
+                    builder.Append(string.Join(" ", res.Bytes.Select(x => x.ToString("X2")).ToArray()));
+                }
+                builder.AppendLine();
+            }
+            Clipboard.SetText(builder.ToString().Trim());
+        }
+
+        private void cpyAddress_Click(object sender, EventArgs e)
+        {
+            var items = ltvOccurences.SelectedIndices.Cast<int>();
+            var results = items.Select(x => lastResults[x]);
+            CopyToClipboard(results, true, false);
+        }
+
+        private void cpyBytes_Click(object sender, EventArgs e)
+        {
+            var items = ltvOccurences.SelectedIndices.Cast<int>();
+            var results = items.Select(x => lastResults[x]);
+            CopyToClipboard(results, false, true);
+        }
+
+        private void cpyAddressBytes_Click(object sender, EventArgs e)
+        {
+            var items = ltvOccurences.SelectedIndices.Cast<int>();
+            var results = items.Select(x => lastResults[x]);
+            CopyToClipboard(results, true, true);
         }
     }
 }
