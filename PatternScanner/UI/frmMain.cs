@@ -12,6 +12,7 @@ using System.Text;
 using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Xml.Serialization;
 
 namespace PatternScanner.UI
 {
@@ -46,73 +47,12 @@ namespace PatternScanner.UI
         private PeFile peFile;
         private MultithreadedScanner scanner;
         private ScanResult[] lastResults = new ScanResult[0];
-        //private Task<ListViewItem[]>[] scanTasks;
-        //private CancellationTokenSource cancellation;
-        //private ScanProgress progress;
-
-        //private struct ScanSettings
-        //{
-        //    public long address, size;
-        //    public byte[] bytes;
-        //    public string mask;
-        //}
-        ////TODO: Implement better progress synchronization.
-        //private class ScanProgress
-        //{
-        //    public ScanSettings[] Settings { get; private set; }
-        //    public long[] BytesRead { get; private set; }
-        //    public int Findings { get; private set; }
-        //    public int lastUpdate;
-
-        //    public event EventHandler MadeProgress, FoundItems;
-
-        //    public void Setup(ScanSettings[] settings)
-        //    {
-        //        Settings = settings;
-        //        BytesRead = new long[settings.Length];
-        //        Findings = 0;
-        //        lastUpdate = 0;
-        //    }
-
-        //    public void Update(int id, long bytes)
-        //    {
-        //        BytesRead[id] = bytes;
-        //        MadeProgress?.Invoke(this, EventArgs.Empty);
-        //    }
-        //    public void AddFinding()
-        //    {
-        //        Findings++;
-        //        FoundItems?.Invoke(this, EventArgs.Empty);
-        //    }
-        //}
 
         public frmMain()
         {
             InitializeComponent();
             Icon = Properties.Resources.Logo_256;
             var proj = new ProjectView();
-
-            //progress = new ScanProgress();
-            //progress.MadeProgress += (o, e) =>
-            //{
-            //    var totalBytes = progress.BytesRead.Sum();
-            //    var perc = (int)(100 * (totalBytes / (double)progress.Settings.Sum(x => x.size)));
-            //    if (perc > progress.lastUpdate)
-            //    {
-            //        progress.lastUpdate = perc;
-            //        this.Invoke((MethodInvoker)delegate { progressBar1.Value = Math.Min(perc, progressBar1.Maximum); });
-            //    }
-            //};
-            //progress.FoundItems += (o, e) =>
-            //{
-            //    if (progress.Findings < 10 ||
-            //        progress.Findings < 100 && progress.Findings % 10 == 0 ||
-            //        progress.Findings < 1000 && progress.Findings % 100 == 0 ||
-            //        progress.Findings < 10000 && progress.Findings % 1000 == 0 ||
-            //        progress.Findings < 100000 && progress.Findings % 1000 == 0 ||
-            //        progress.Findings < 1000000 && progress.Findings % 10000 == 0)
-            //        this.Invoke((MethodInvoker)delegate { lblOccurences.Text = progress.Findings.ToString(); });
-            //};
         }
 
         private void LoadPeFile()
@@ -132,7 +72,7 @@ namespace PatternScanner.UI
 
         private void patternTable_PatternChanged(object sender, EventArgs e)
         {
-            var pattern = patternTable.CodeText.Pattern;
+            var pattern = patternTable.Pattern;
             txbBytes.Text = pattern.BytesString;
             txbMask.Text = pattern.Mask;
             txbPattern.Text = pattern.HybridPattern;
@@ -142,16 +82,16 @@ namespace PatternScanner.UI
         {
             using (var frm = new frmPatternImport())
             {
-                frm.CodeText = patternTable.CodeText;
+                frm.Pattern = patternTable.Pattern;
                 if (frm.ShowDialog() == DialogResult.OK)
                 {
-                    patternTable.CodeText = frm.CodeText;
+                    patternTable.Pattern = frm.Pattern;
                 }
             }
         }
         private void txbMask_TextChanged(object sender, EventArgs e)
         {
-            var mask = patternTable.CodeText.Pattern.Mask;
+            var mask = patternTable.Pattern.Mask;
             try
             {
                 patternTable.CodeText.ApplyMask(txbMask.Text);
@@ -199,7 +139,7 @@ namespace PatternScanner.UI
                 var settings = new ScanSettings(
                     section != null ? section.Address : 0,
                     section != null ? section.Size : file.Length,
-                    patternTable.CodeText.Pattern);
+                    patternTable.Pattern);
 
                 var progress = new ScanProgress(settings);
                 progress.MadeProgressPercent += (_o, _e) => 
@@ -229,16 +169,6 @@ namespace PatternScanner.UI
             {
                 scanner.Cancel();
             }
-        }
-
-        private void lnkUC_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://www.unknowncheats.me/forum/members/562321.html");
-        }
-
-        private void lnkGithub_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
-        {
-            Process.Start("https://github.com/BigMo/PatternScanner");
         }
 
         private void ltvOccurences_RetrieveVirtualItem(object sender, RetrieveVirtualItemEventArgs e)
@@ -307,8 +237,27 @@ namespace PatternScanner.UI
         private void aboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
             using (var frm = new frmAbout())
-            {
                 frm.ShowDialog();
+        }
+
+        private void projectView1_SelectedPatternChanged(object sender, EventArgs e)
+        {
+            patternTable.Pattern = projectView1.SelectedPattern;
+        }
+
+        private void saveProjectToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            using (var sfd = new SaveFileDialog())
+            {
+                sfd.Filter = "PatternScanner-Project (*.psproj)|*.psproj";
+                if (sfd.ShowDialog() == DialogResult.OK)
+                {
+                    var xml = new XmlSerializer(typeof(Project)/*, new Type[] { typeof(Group), typeof(Pattern) }*/);
+                    using (var writer = new StreamWriter(sfd.FileName))
+                    {
+                        xml.Serialize(writer, projectView1.Project);
+                    }
+                }
             }
         }
     }

@@ -29,15 +29,9 @@
         private void InitializeComponent()
         {
             this.components = new System.ComponentModel.Container();
-            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("E9 ? ? ? ?");
-            System.Windows.Forms.TreeNode treeNode2 = new System.Windows.Forms.TreeNode("New Group", new System.Windows.Forms.TreeNode[] {
-            treeNode1});
-            PatternScanner.DTO.Group group1 = new PatternScanner.DTO.Group();
-            System.Windows.Forms.TreeNode treeNode3 = new System.Windows.Forms.TreeNode("New Project", new System.Windows.Forms.TreeNode[] {
-            treeNode2});
+            System.Windows.Forms.TreeNode treeNode1 = new System.Windows.Forms.TreeNode("New Project");
             PatternScanner.DTO.Project project1 = new PatternScanner.DTO.Project();
             this.splitContainer1 = new System.Windows.Forms.SplitContainer();
-            this.patternTable = new PatternScanner.UI.PatternTable();
             this.tableLayoutPanel1 = new System.Windows.Forms.TableLayoutPanel();
             this.btnImport = new System.Windows.Forms.Button();
             this.label1 = new System.Windows.Forms.Label();
@@ -46,11 +40,6 @@
             this.txbMask = new System.Windows.Forms.TextBox();
             this.txbPattern = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.tableLayoutPanel3 = new System.Windows.Forms.TableLayoutPanel();
-            this.lnkUC = new System.Windows.Forms.LinkLabel();
-            this.label6 = new System.Windows.Forms.Label();
-            this.lnkGithub = new System.Windows.Forms.LinkLabel();
-            this.label8 = new System.Windows.Forms.Label();
             this.ltvOccurences = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -85,12 +74,12 @@
             this.splitContainer2 = new System.Windows.Forms.SplitContainer();
             this.imlIcons = new System.Windows.Forms.ImageList(this.components);
             this.projectView1 = new PatternScanner.UI.ProjectView();
+            this.patternTable = new PatternScanner.UI.PatternTable();
             ((System.ComponentModel.ISupportInitialize)(this.splitContainer1)).BeginInit();
             this.splitContainer1.Panel1.SuspendLayout();
             this.splitContainer1.Panel2.SuspendLayout();
             this.splitContainer1.SuspendLayout();
             this.tableLayoutPanel1.SuspendLayout();
-            this.tableLayoutPanel3.SuspendLayout();
             this.ctxOccurences.SuspendLayout();
             this.tableLayoutPanel2.SuspendLayout();
             this.mnuMain.SuspendLayout();
@@ -120,20 +109,6 @@
             this.splitContainer1.SplitterDistance = 296;
             this.splitContainer1.TabIndex = 7;
             // 
-            // patternTable
-            // 
-            this.patternTable.AutoScroll = true;
-            this.patternTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
-            this.patternTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
-            this.patternTable.CodeFont = new System.Drawing.Font("Courier New", 8.25F);
-            this.patternTable.CodeText = null;
-            this.patternTable.Dock = System.Windows.Forms.DockStyle.Fill;
-            this.patternTable.Location = new System.Drawing.Point(0, 0);
-            this.patternTable.Name = "patternTable";
-            this.patternTable.Size = new System.Drawing.Size(296, 319);
-            this.patternTable.TabIndex = 6;
-            this.patternTable.PatternChanged += new System.EventHandler(this.patternTable_PatternChanged);
-            // 
             // tableLayoutPanel1
             // 
             this.tableLayoutPanel1.AutoSize = true;
@@ -148,16 +123,14 @@
             this.tableLayoutPanel1.Controls.Add(this.txbMask, 1, 1);
             this.tableLayoutPanel1.Controls.Add(this.txbPattern, 1, 2);
             this.tableLayoutPanel1.Controls.Add(this.label5, 0, 2);
-            this.tableLayoutPanel1.Controls.Add(this.tableLayoutPanel3, 0, 3);
             this.tableLayoutPanel1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 319);
+            this.tableLayoutPanel1.Location = new System.Drawing.Point(0, 339);
             this.tableLayoutPanel1.Name = "tableLayoutPanel1";
-            this.tableLayoutPanel1.RowCount = 4;
+            this.tableLayoutPanel1.RowCount = 3;
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
             this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle());
-            this.tableLayoutPanel1.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Absolute, 20F));
-            this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 101);
+            this.tableLayoutPanel1.Size = new System.Drawing.Size(296, 81);
             this.tableLayoutPanel1.TabIndex = 6;
             // 
             // btnImport
@@ -236,75 +209,6 @@
             this.label5.Size = new System.Drawing.Size(41, 13);
             this.label5.TabIndex = 0;
             this.label5.Text = "Pattern";
-            // 
-            // tableLayoutPanel3
-            // 
-            this.tableLayoutPanel3.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Left | System.Windows.Forms.AnchorStyles.Right)));
-            this.tableLayoutPanel3.ColumnCount = 4;
-            this.tableLayoutPanel1.SetColumnSpan(this.tableLayoutPanel3, 3);
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.ColumnStyles.Add(new System.Windows.Forms.ColumnStyle());
-            this.tableLayoutPanel3.Controls.Add(this.lnkUC, 1, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label6, 0, 0);
-            this.tableLayoutPanel3.Controls.Add(this.lnkGithub, 3, 0);
-            this.tableLayoutPanel3.Controls.Add(this.label8, 2, 0);
-            this.tableLayoutPanel3.Location = new System.Drawing.Point(0, 81);
-            this.tableLayoutPanel3.Margin = new System.Windows.Forms.Padding(0);
-            this.tableLayoutPanel3.Name = "tableLayoutPanel3";
-            this.tableLayoutPanel3.RowCount = 1;
-            this.tableLayoutPanel3.RowStyles.Add(new System.Windows.Forms.RowStyle(System.Windows.Forms.SizeType.Percent, 100F));
-            this.tableLayoutPanel3.Size = new System.Drawing.Size(296, 20);
-            this.tableLayoutPanel3.TabIndex = 8;
-            // 
-            // lnkUC
-            // 
-            this.lnkUC.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkUC.AutoSize = true;
-            this.lnkUC.Location = new System.Drawing.Point(22, 3);
-            this.lnkUC.Margin = new System.Windows.Forms.Padding(0);
-            this.lnkUC.Name = "lnkUC";
-            this.lnkUC.Size = new System.Drawing.Size(55, 13);
-            this.lnkUC.TabIndex = 0;
-            this.lnkUC.TabStop = true;
-            this.lnkUC.Text = "Zat @ UC";
-            this.lnkUC.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkUC_LinkClicked);
-            // 
-            // label6
-            // 
-            this.label6.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label6.AutoSize = true;
-            this.label6.Location = new System.Drawing.Point(3, 3);
-            this.label6.Margin = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.label6.Name = "label6";
-            this.label6.Size = new System.Drawing.Size(19, 13);
-            this.label6.TabIndex = 1;
-            this.label6.Text = "By";
-            // 
-            // lnkGithub
-            // 
-            this.lnkGithub.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.lnkGithub.AutoSize = true;
-            this.lnkGithub.Location = new System.Drawing.Point(89, 3);
-            this.lnkGithub.Margin = new System.Windows.Forms.Padding(0);
-            this.lnkGithub.Name = "lnkGithub";
-            this.lnkGithub.Size = new System.Drawing.Size(85, 13);
-            this.lnkGithub.TabIndex = 0;
-            this.lnkGithub.TabStop = true;
-            this.lnkGithub.Text = "BigMo @ Github";
-            this.lnkGithub.LinkClicked += new System.Windows.Forms.LinkLabelLinkClickedEventHandler(this.lnkGithub_LinkClicked);
-            // 
-            // label8
-            // 
-            this.label8.Anchor = System.Windows.Forms.AnchorStyles.Left;
-            this.label8.AutoSize = true;
-            this.label8.Location = new System.Drawing.Point(77, 3);
-            this.label8.Margin = new System.Windows.Forms.Padding(0);
-            this.label8.Name = "label8";
-            this.label8.Size = new System.Drawing.Size(12, 13);
-            this.label8.TabIndex = 1;
-            this.label8.Text = "/";
             // 
             // ltvOccurences
             // 
@@ -542,44 +446,45 @@
             // 
             this.openToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_group;
             this.openToolStripMenuItem.Name = "openToolStripMenuItem";
-            this.openToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openToolStripMenuItem.Text = "Open...";
             // 
             // importToolStripMenuItem
             // 
             this.importToolStripMenuItem.Name = "importToolStripMenuItem";
-            this.importToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.importToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.importToolStripMenuItem.Text = "Import...";
             // 
             // toolStripSeparator2
             // 
             this.toolStripSeparator2.Name = "toolStripSeparator2";
-            this.toolStripSeparator2.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator2.Size = new System.Drawing.Size(177, 6);
             // 
             // saveProjectToolStripMenuItem
             // 
             this.saveProjectToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_save;
             this.saveProjectToolStripMenuItem.Name = "saveProjectToolStripMenuItem";
-            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.saveProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.saveProjectToolStripMenuItem.Text = "Save project";
+            this.saveProjectToolStripMenuItem.Click += new System.EventHandler(this.saveProjectToolStripMenuItem_Click);
             // 
             // openProjectToolStripMenuItem
             // 
             this.openProjectToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_group;
             this.openProjectToolStripMenuItem.Name = "openProjectToolStripMenuItem";
-            this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.openProjectToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.openProjectToolStripMenuItem.Text = "Open project";
             // 
             // toolStripSeparator3
             // 
             this.toolStripSeparator3.Name = "toolStripSeparator3";
-            this.toolStripSeparator3.Size = new System.Drawing.Size(140, 6);
+            this.toolStripSeparator3.Size = new System.Drawing.Size(177, 6);
             // 
             // exitToolStripMenuItem
             // 
             this.exitToolStripMenuItem.Image = global::PatternScanner.Properties.Resources.ico_exit;
             this.exitToolStripMenuItem.Name = "exitToolStripMenuItem";
-            this.exitToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.exitToolStripMenuItem.Size = new System.Drawing.Size(180, 22);
             this.exitToolStripMenuItem.Text = "Exit";
             // 
             // helpToolStripMenuItem
@@ -623,29 +528,39 @@
             // 
             // projectView1
             // 
+            this.projectView1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.projectView1.FullRowSelect = true;
             this.projectView1.ImageIndex = 0;
-            this.projectView1.Location = new System.Drawing.Point(3, 3);
+            this.projectView1.LabelEdit = true;
+            this.projectView1.Location = new System.Drawing.Point(0, 0);
             this.projectView1.Name = "projectView1";
-            treeNode1.ImageIndex = 2;
-            treeNode1.Name = "E9 ? ? ? ?";
-            treeNode1.Text = "E9 ? ? ? ?";
-            treeNode2.ImageIndex = 1;
-            treeNode2.Name = "New Group";
-            group1.Name = "New Group";
-            treeNode2.Tag = group1;
-            treeNode2.Text = "New Group";
-            treeNode3.ImageIndex = 0;
-            treeNode3.Name = "New Project";
+            treeNode1.ImageIndex = 0;
+            treeNode1.Name = "";
             project1.Name = "New Project";
-            treeNode3.Tag = project1;
-            treeNode3.Text = "New Project";
+            treeNode1.Tag = project1;
+            treeNode1.Text = "New Project";
             this.projectView1.Nodes.AddRange(new System.Windows.Forms.TreeNode[] {
-            treeNode3});
+            treeNode1});
             this.projectView1.Project = project1;
             this.projectView1.SelectedImageIndex = 0;
-            this.projectView1.Size = new System.Drawing.Size(148, 292);
+            this.projectView1.Size = new System.Drawing.Size(193, 420);
             this.projectView1.TabIndex = 0;
+            this.projectView1.SelectedPatternChanged += new System.EventHandler(this.projectView1_SelectedPatternChanged);
+            // 
+            // patternTable
+            // 
+            this.patternTable.AutoScroll = true;
+            this.patternTable.AutoSizeMode = System.Windows.Forms.AutoSizeMode.GrowAndShrink;
+            this.patternTable.BorderStyle = System.Windows.Forms.BorderStyle.FixedSingle;
+            this.patternTable.CodeFont = new System.Drawing.Font("Courier New", 8.25F);
+            this.patternTable.CodeText = null;
+            this.patternTable.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.patternTable.Location = new System.Drawing.Point(0, 0);
+            this.patternTable.Name = "patternTable";
+            this.patternTable.Pattern = null;
+            this.patternTable.Size = new System.Drawing.Size(296, 339);
+            this.patternTable.TabIndex = 6;
+            this.patternTable.PatternChanged += new System.EventHandler(this.patternTable_PatternChanged);
             // 
             // frmMain
             // 
@@ -665,8 +580,6 @@
             this.splitContainer1.ResumeLayout(false);
             this.tableLayoutPanel1.ResumeLayout(false);
             this.tableLayoutPanel1.PerformLayout();
-            this.tableLayoutPanel3.ResumeLayout(false);
-            this.tableLayoutPanel3.PerformLayout();
             this.ctxOccurences.ResumeLayout(false);
             this.tableLayoutPanel2.ResumeLayout(false);
             this.tableLayoutPanel2.PerformLayout();
@@ -704,11 +617,6 @@
         private System.Windows.Forms.ProgressBar progressBar1;
         private System.Windows.Forms.TextBox txbPattern;
         private System.Windows.Forms.Label label5;
-        private System.Windows.Forms.TableLayoutPanel tableLayoutPanel3;
-        private System.Windows.Forms.LinkLabel lnkUC;
-        private System.Windows.Forms.Label label6;
-        private System.Windows.Forms.LinkLabel lnkGithub;
-        private System.Windows.Forms.Label label8;
         private System.Windows.Forms.ListView ltvOccurences;
         private System.Windows.Forms.ContextMenuStrip ctxOccurences;
         private System.Windows.Forms.ToolStripMenuItem cpyAddress;

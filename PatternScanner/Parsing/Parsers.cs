@@ -8,6 +8,6 @@ namespace PatternScanner.Parsing
 {
     public static class Parsers
     {
-        public static ICodeParser[] All => new ICodeParser[] { HexParser.Instance, IDAParser.Instance, CEParser.Instance };
+        public static ICodeParser[] All => new ICodeParser[] { HexParser.Instance, IDAParser.Instance, GhidraParser.Instance, CEParser.Instance };
     }
 }

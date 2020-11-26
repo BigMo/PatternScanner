@@ -29,7 +29,7 @@ namespace PatternScanner.Parsing
                 var asm = match.Groups[4].Value.Trim();
                 codeRows.Add(new CodeRow(bytes.Select(x => new CodeByte(int.Parse(x.Trim(), System.Globalization.NumberStyles.HexNumber))).ToArray(), asm));
             }
-            return new CodeText(codeRows.ToArray(), text);
+            return new CodeText(codeRows.ToArray());
         }
     }
 }

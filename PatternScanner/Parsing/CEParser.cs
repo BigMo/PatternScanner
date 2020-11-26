@@ -31,7 +31,7 @@ namespace PatternScanner.Parsing
                     singleBytes.Add(byte.Parse(bytes.Substring(i, 2), System.Globalization.NumberStyles.HexNumber));
                 codeRows.Add(new CodeRow(singleBytes.Select(x => new CodeByte(x)).ToArray(), asm));
             }
-            return new CodeText(codeRows.ToArray(), text);
+            return new CodeText(codeRows.ToArray());
         }
     }
 }

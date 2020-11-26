@@ -8,6 +8,7 @@ namespace PatternScanner.DTO
 {
     public class Group : TransparentContainer<Pattern>
     {
+        public Project Project { get; set; }
         public string Name { get; set; }
     }
 }

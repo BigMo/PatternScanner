@@ -28,23 +28,43 @@ namespace PatternScanner.UI
                 }
             }
         }
-        public CodeText CodeText
+        //public CodeText CodeText
+        //{
+        //    get { return codeText; }
+        //    set
+        //    {
+        //        if (codeText != value)
+        //        {
+        //            codeText = value;
+        //            btnApply.Enabled = codeText != null && CodeText.Rows.Length > 0 && codeText.Rows.SelectMany(x => x.Bytes).Count() > 0;
+        //            lblRows.Text = codeText == null ? "-" : codeText.Rows.Length.ToString();
+        //            lblBytes.Text = codeText == null ? "-" : codeText.Rows.SelectMany(x => x.Bytes).Count().ToString();
+        //            rtbText.Text = codeText == null ? "" : codeText.Source;
+        //            txbName.Text = codeText == null ? "" : codeText.Name;
+        //        }
+        //    }
+        //}
+
+        //private CodeText codeText;
+
+        public Pattern Pattern
         {
-            get { return codeText; }
+            get { return pattern; }
             set
             {
-                if (codeText != value)
+                if (pattern != value)
                 {
-                    codeText = value;
-                    btnApply.Enabled = codeText != null && CodeText.Rows.Length > 0 && codeText.Rows.SelectMany(x => x.Bytes).Count() > 0;
-                    lblRows.Text = codeText == null ? "-" : codeText.Rows.Length.ToString();
-                    lblBytes.Text = codeText == null ? "-" : codeText.Rows.SelectMany(x => x.Bytes).Count().ToString();
-                    rtbText.Text = codeText == null ? "" : codeText.Source;
+                    pattern = value;
+                    cbbStyle.SelectedItem = pattern.Parser;
+                    btnApply.Enabled = pattern != null;
+                    lblRows.Text = pattern == null ? "-" : pattern.CodeText.Rows.Length.ToString();
+                    lblBytes.Text = pattern == null ? "-" : pattern.Bytes.Length.ToString();
+                    rtbText.Text = pattern == null ? "" : pattern.Source;
+                    txbName.Text = pattern == null ? "" : pattern.Name;
                 }
             }
         }
-
-        private CodeText codeText;
+        private Pattern pattern;
         private ICodeParser parser;
 
 
@@ -63,15 +83,18 @@ namespace PatternScanner.UI
 
         private void btnParse_Click(object sender, EventArgs e)
         {
-            try
-            {
-                CodeText = Parser.Parse(rtbText.Text);
-            }
-            catch (Exception ex)
-            {
-                MessageBox.Show($"Failed to parse disassembly:\n{ex.Message}", "Error", MessageBoxButtons.OK);
-                CodeText = null;
-            }
+            //try
+            //{
+                Pattern = Pattern.FromParser(rtbText.Text, txbName.Text, Parser);
+                txbName.Text = Pattern.Name;
+                //CodeText = Parser.Parse(rtbText.Text);
+                //txbName.Text = CodeText.Pattern.Name;
+            //}
+            //catch (Exception ex)
+            //{
+            //    MessageBox.Show($"Failed to parse disassembly:\n{ex.Message}", "Error", MessageBoxButtons.OK);
+            //    //CodeText = null;
+            //}
         }
 
         private void btnReadFile_Click(object sender, EventArgs e)
@@ -88,7 +111,7 @@ namespace PatternScanner.UI
                     }
                 }
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 MessageBox.Show($"Failed to read file:\n{ex.Message}", "Error", MessageBoxButtons.OK);
             }
@@ -108,8 +131,18 @@ namespace PatternScanner.UI
 
         private void rtbText_TextChanged(object sender, EventArgs e)
         {
-            if (codeText == null || (codeText != null && rtbText.Text != codeText.Source))
+            //if (codeText == null || (codeText != null && rtbText.Text != codeText.Source))
+            //    btnApply.Enabled = false;
+            if (Pattern == null || (Pattern != null && rtbText.Text != Pattern.Source))
                 btnApply.Enabled = false;
+        }
+
+        private void txbName_TextChanged(object sender, EventArgs e)
+        {
+            if (Pattern != null)
+                Pattern.Name = txbName.Text;
+            //if (codeText != null)
+            //    codeText.Name = txbName.Text;
         }
     }
 }

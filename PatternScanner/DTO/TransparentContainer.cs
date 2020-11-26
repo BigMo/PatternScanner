@@ -9,7 +9,11 @@ namespace PatternScanner.DTO
     public abstract class TransparentContainer<T>
     {
         private List<T> content;
-        public IEnumerable<T> Content => content;
+        public List<T> Content
+        {
+            get { return content; }
+            set { content = value; }
+        }
 
         public event EventHandler<ElementEventArgs<T>> ElementAdded;
         public event EventHandler<ElementEventArgs<T>> ElementRemoved;

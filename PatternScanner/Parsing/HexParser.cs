@@ -36,7 +36,7 @@ namespace PatternScanner.Parsing
                 var asm = string.Join(" ", bytes.Select(x => x.Wildcard ? "??" : x.Value.ToString("X2")).ToArray());
                 codeRows.Add(new CodeRow(bytes, asm));
             }
-            return new CodeText(codeRows.ToArray(), text);
+            return new CodeText(codeRows.ToArray());
         }
     }
 }

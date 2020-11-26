@@ -73,6 +73,7 @@
     <Compile Include="DTO\TransparentContainer.cs" />
     <Compile Include="Extensions\LinqExtensions.cs" />
     <Compile Include="Parsing\CEParser.cs" />
+    <Compile Include="Parsing\GhidraParser.cs" />
     <Compile Include="Parsing\HexParser.cs" />
     <Compile Include="Parsing\ICodeParser.cs" />
     <Compile Include="Parsing\IDAParser.cs" />
@@ -155,6 +156,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="UI\PatternTable.resx">
       <DependentUpon>PatternTable.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="UI\ProjectView.resx">
+      <DependentUpon>ProjectView.cs</DependentUpon>
     </EmbeddedResource>
     <None Include="packages.config" />
     <None Include="Properties\Settings.settings">
